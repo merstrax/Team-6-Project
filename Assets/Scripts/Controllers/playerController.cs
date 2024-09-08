@@ -100,8 +100,8 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hit, shootDistance, ~ignoreMask))
         {
-            //IDamage dmg = hit.collider.GetComponent<IDamage>();
-            //dmg?.TakeDamage(shootDamage);
+            IDamage dmg = hit.collider.GetComponent<IDamage>();
+            dmg?.TakeDamage(shootDamage);
         }
 
         yield return new WaitForSeconds(shootRate);
