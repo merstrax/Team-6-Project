@@ -24,7 +24,7 @@ public class gameManager : MonoBehaviour
 
     //Wave variables
     [SerializeField] int enemyMaxSpawn = 30; //Max amount of enemies on the map at a time.
-    [SerializeField] float enemySpawnTimner = 3.0f;
+    [SerializeField] float enemySpawnTimer = 3.0f;
     [SerializeField] float enemyBaseSpawnCount = 2.0f;
     [SerializeField] float enemyWaveSpawnCurve = 0.2f;
     [SerializeField] float enemyMoneyBase = 100.0f;
@@ -32,10 +32,12 @@ public class gameManager : MonoBehaviour
 
     [SerializeField] float buyPhaseTimer = 30.0f; //Time in seconds
 
+    [SerializeField] enemySpawner[] enemySpawners;
+
     int currentWave = 1;
     public int GetCurrentWave() { return currentWave; }
 
-    int enemyCount; //How many enemies on the map
+    int enemyCount = 0; //How many enemies on the map
     int enemyRemaining; //How many enemies until wave is over
     public int GetEnemiesRemaining() { return enemyRemaining; }
 
@@ -53,7 +55,7 @@ public class gameManager : MonoBehaviour
     //Game State and default settings
     float timeScaleOrig;
     public bool isPaused;
-    private bool canSpawn;
+    private bool canSpawn = true;
 
     // Start is called before the first frame update
     void Awake()
@@ -100,6 +102,7 @@ public class gameManager : MonoBehaviour
 
         if (canSpawn && currentPhase == GamePhase.COMBAT)
         {
+            //Debug.Log("Spawn");
             StartCoroutine(SpawnEnemy());
         }
     }
@@ -130,6 +133,8 @@ public class gameManager : MonoBehaviour
         enemyCount--;
         enemyRemaining--;
         enemyKilled++;
+
+        playerMoney += enemyValue;
         //Only need to update the player interface whenever something changes
         //no need to do every frame
         playerInterface.UpdatePlayerInterface();
@@ -186,7 +191,7 @@ public class gameManager : MonoBehaviour
 
         currentWave++;
         CalclulateWaveAmount();
-
+        CalculateMoneyAmount();
         //Update the player interface
         playerInterface.UpdatePlayerInterface();
         currentPhase = GamePhase.COMBAT;
@@ -198,13 +203,15 @@ public class gameManager : MonoBehaviour
     {
         canSpawn = false;
 
-        if(enemyCount >= enemyMaxSpawn && enemyRemaining > enemyCount)
+        if(enemyCount < enemyMaxSpawn && enemyRemaining > enemyCount)
         {
             enemyCount++;
-            //Spawn an enemy
+            int rand = Random.Range(0, enemySpawners.Length);
+            Debug.Log(rand);
+            enemySpawners[rand].SpawnEnemy();
         }
 
-        yield return new WaitForSeconds(enemySpawnTimner);
+        yield return new WaitForSeconds(enemySpawnTimer);
         canSpawn = true;
     }
 }

@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class enemyAI : MonoBehaviour, IDamage
 {
     [SerializeField] Renderer model;
+    [SerializeField] NavMeshAgent agent;
+
 
     [SerializeField] float HP;
 
@@ -19,7 +22,7 @@ public class enemyAI : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-
+        agent.SetDestination(gameManager.instance.player.transform.position);
     }
 
     public void TakeDamage(float amount)
