@@ -42,12 +42,6 @@ public class cameraController : MonoBehaviour
         transform.localRotation = Quaternion.Euler(rotX, 0, 0);
 
         //Rotate the player on the y-axis
-        transform.parent.Rotate(Vector3.up * mouseX);
-
-        //Point Weapon towards middle of screen
-        Vector3 ScreenCentreCoordinates = new Vector3(0.5f, 0.5f, 0f);
-        Ray ray = Camera.main.ViewportPointToRay(ScreenCentreCoordinates);
-        weapon.transform.LookAt(ray.GetPoint(20f));
-        firePos.transform.LookAt(ray.GetPoint(20f));
+        transform.parent.Rotate(Vector3.up * mouseX); 
     }
 }
