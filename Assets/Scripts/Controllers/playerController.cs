@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int gravity;
 
     //Player Shoot
+    [SerializeField] weaponHandler weapon;
     [SerializeField] int shootDamage;
     [SerializeField] float shootRate;
     [SerializeField] float shootDistance;
@@ -31,7 +33,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        shootRate = weapon.GetFireRate();
     }
 
     // Update is called once per frame
@@ -97,12 +99,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator Shoot()
     {
         isShooting = true;
-
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hit, shootDistance, ~ignoreMask))
-        {
-            IDamage dmg = hit.collider.GetComponent<IDamage>();
-            dmg?.TakeDamage(shootDamage);
-        }
+        weapon.Fire();
 
         yield return new WaitForSeconds(shootRate);
         isShooting = false;

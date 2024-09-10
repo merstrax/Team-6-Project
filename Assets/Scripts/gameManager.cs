@@ -207,7 +207,6 @@ public class gameManager : MonoBehaviour
         {
             enemyCount++;
             int rand = Random.Range(0, enemySpawners.Length);
-            Debug.Log(rand);
             enemySpawners[rand].SpawnEnemy();
         }
 

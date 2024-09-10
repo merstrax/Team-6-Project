@@ -7,6 +7,8 @@ public class cameraController : MonoBehaviour
     [SerializeField] int sensitivity;
     [SerializeField] int lockVertMin, lockVertMax;
     [SerializeField] bool invertY;
+    [SerializeField] GameObject weapon;
+    [SerializeField] GameObject firePos;
 
     float rotX;
 
@@ -41,5 +43,11 @@ public class cameraController : MonoBehaviour
 
         //Rotate the player on the y-axis
         transform.parent.Rotate(Vector3.up * mouseX);
+
+        //Point Weapon towards middle of screen
+        Vector3 ScreenCentreCoordinates = new Vector3(0.5f, 0.5f, 0f);
+        Ray ray = Camera.main.ViewportPointToRay(ScreenCentreCoordinates);
+        weapon.transform.LookAt(ray.GetPoint(20f));
+        firePos.transform.LookAt(ray.GetPoint(20f));
     }
 }
