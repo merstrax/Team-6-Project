@@ -39,7 +39,7 @@ public class gameManager : MonoBehaviour
             {
                 StatePause();
                 menuActive = menuPause;
-                menuPause.SetActive(isPaused);
+                menuActive.SetActive(isPaused);
             }
             else if (menuActive == menuPause)
             {
