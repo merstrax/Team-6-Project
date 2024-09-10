@@ -6,20 +6,42 @@ public class gameManager : MonoBehaviour
 {
     public static gameManager instance;
 
-    // the different menus
+    // User Interface Variables
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuShop;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
 
+    GameObject menuActive;
+
     public GameObject damagePanel;
+
+    //Game Objects
     public GameObject player;
     public PlayerController playerScript;
 
-    GameObject menuActive;
-    int enemyCount;
+    int currentWave;
+    int enemyCount; //How many enemies on the map
+    int enemyRemaining; //How many enemies until wave is over
+
+    //Wave variables
+    [SerializeField] int enemyMaxSpawn = 30; //Max amount of enemies on the map at a time.
+    [SerializeField] float enemySpawnTimner = 3.0f;
+    [SerializeField] float enemyBaseSpawnCount = 10.0f;
+    [SerializeField] float enemyWaveSpawnCurve = 0.2f;
+    [SerializeField] float enemyMoneyBase = 100.0f;
+    [SerializeField] float enemyMoneyCurve = 0.1f;
+
+    [SerializeField] float buyPhaseTimer = 30.0f; //Time in seconds
+
+    //Game Phases
+    enum GamePhase{BUY, COMBAT};
+    GamePhase currentPhase = GamePhase.BUY;
+
+    //Game State and default settings
     float timeScaleOrig;
     public bool isPaused;
+    private bool canSpawn;
 
     // Start is called before the first frame update
     void Awake()
@@ -48,7 +70,7 @@ public class gameManager : MonoBehaviour
             }
         }
 
-        if(Input.GetButtonDown("Shop"))
+        if(Input.GetButtonDown("Shop") && currentPhase == GamePhase.BUY)
         {
             if (menuActive == null)
             {
@@ -60,6 +82,11 @@ public class gameManager : MonoBehaviour
             {
                 StateUnpause();
             }
+        }
+
+        if (canSpawn && currentPhase == GamePhase.COMBAT)
+        {
+            StartCoroutine(SpawnEnemy());
         }
     }
     
@@ -86,13 +113,12 @@ public class gameManager : MonoBehaviour
     // pops up the win menu if all of the enemies are dead
     public void UpdateGameGoal(int amount)
     {
-        enemyCount += amount;
+        enemyRemaining += amount;
 
-        if(enemyCount <= 0)
+        if(enemyRemaining <= 0)
         {
-            StatePause();
-            menuActive = menuWin;
-            menuActive.SetActive(isPaused);
+            //Go to buy phase for allotted time period
+            StartCoroutine(NextWavePhase());
         }
     }
 
@@ -102,5 +128,50 @@ public class gameManager : MonoBehaviour
         StatePause();
         menuActive = menuLose;
         menuActive.SetActive(isPaused);
+    }
+
+    public bool CanBuy()
+    {
+        if(currentPhase == GamePhase.BUY)
+            return true;
+        return false;
+    }
+
+    //Calculate how many enemies for current wave
+    void CalclulateWaveAmount()
+    {
+        float _waveModifier = enemyWaveSpawnCurve / Mathf.Log10(currentWave + 1); //Log modifier for enemy spawn count
+        float _waveMultiplier = Mathf.Pow(2, _waveModifier * ((currentWave - 1) / 2)); //Using modifier to create spawn count multiplier
+
+        float _enemyRemaining = enemyBaseSpawnCount * _waveMultiplier;
+
+        enemyRemaining = (int)_enemyRemaining;
+    }
+
+    //Phase change handler
+    IEnumerator NextWavePhase()
+    {
+        currentPhase = GamePhase.BUY;
+
+        yield return new WaitForSeconds(buyPhaseTimer);
+
+        currentWave++;
+        CalclulateWaveAmount();
+        currentPhase = GamePhase.COMBAT;
+        canSpawn = true;
+    }
+
+    //Enemy spawn handler
+    IEnumerator SpawnEnemy()
+    {
+        canSpawn = false;
+
+        if(enemyCount >= enemyMaxSpawn)
+        {
+            //Spawn an enemy
+        }
+
+        yield return new WaitForSeconds(enemySpawnTimner);
+        canSpawn = true;
     }
 }

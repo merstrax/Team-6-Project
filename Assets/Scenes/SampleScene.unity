@@ -1933,6 +1933,13 @@ MonoBehaviour:
   damagePanel: {fileID: 0}
   player: {fileID: 0}
   playerScript: {fileID: 0}
+  enemyMaxSpawn: 30
+  enemySpawnTimner: 3
+  enemyBaseSpawnCount: 10
+  enemyWaveSpawnCurve: 0.2
+  enemyMoneyBase: 100
+  enemyMoneyCurve: 0.1
+  buyPhaseTimer: 30
   isPaused: 0
 --- !u!1 &1440976869
 GameObject:
@@ -2844,9 +2851,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1111095015}
+  - {fileID: 196781635}
   - {fileID: 1307660565}
   - {fileID: 705507995}
   - {fileID: 1036879663}
   - {fileID: 1982987305}
   - {fileID: 935160346}
-  - {fileID: 196781635}
