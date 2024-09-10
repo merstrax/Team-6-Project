@@ -263,6 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePos: {fileID: 7120798766843202645}
+  damage: 1
   fireRate: 0.1
   magazineSize: 35
   reloadRate: 3

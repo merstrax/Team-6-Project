@@ -33,8 +33,8 @@ public class enemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
-            gameManager.instance.UpdateGameGoal();
-            Destroy(gameObject);
+
+            Die(); 
         }
     }
 
@@ -43,5 +43,11 @@ public class enemyAI : MonoBehaviour, IDamage
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.05f);
         model.material.color = colorOrig;
+    }
+
+    void Die()
+    {
+        gameManager.instance.UpdateGameGoal();
+        Destroy(gameObject); 
     }
 }
