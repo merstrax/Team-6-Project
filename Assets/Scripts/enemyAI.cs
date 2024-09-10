@@ -30,6 +30,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
+            gameManager.instance.UpdateGameGoal();
             Destroy(gameObject);
         }
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class gameManager : MonoBehaviour
@@ -11,6 +12,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuShop;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    [SerializeField] playerInterface playerInterface;
 
     GameObject menuActive;
 
@@ -20,23 +22,33 @@ public class gameManager : MonoBehaviour
     public GameObject player;
     public PlayerController playerScript;
 
-    int currentWave;
-    int enemyCount; //How many enemies on the map
-    int enemyRemaining; //How many enemies until wave is over
-
     //Wave variables
     [SerializeField] int enemyMaxSpawn = 30; //Max amount of enemies on the map at a time.
     [SerializeField] float enemySpawnTimner = 3.0f;
-    [SerializeField] float enemyBaseSpawnCount = 10.0f;
+    [SerializeField] float enemyBaseSpawnCount = 2.0f;
     [SerializeField] float enemyWaveSpawnCurve = 0.2f;
     [SerializeField] float enemyMoneyBase = 100.0f;
     [SerializeField] float enemyMoneyCurve = 0.1f;
 
     [SerializeField] float buyPhaseTimer = 30.0f; //Time in seconds
 
+    int currentWave = 1;
+    public int GetCurrentWave() { return currentWave; }
+
+    int enemyCount; //How many enemies on the map
+    int enemyRemaining; //How many enemies until wave is over
+    public int GetEnemiesRemaining() { return enemyRemaining; }
+
+    int enemyKilled;
+    public int GetEnemiesKilled() { return enemyKilled; }
+
+    int enemyValue = 100;
+    int playerMoney = 0;
+    public int GetPlayerMoney() { return playerMoney; }
+
     //Game Phases
     enum GamePhase{BUY, COMBAT};
-    GamePhase currentPhase = GamePhase.BUY;
+    GamePhase currentPhase = GamePhase.COMBAT;
 
     //Game State and default settings
     float timeScaleOrig;
@@ -50,6 +62,8 @@ public class gameManager : MonoBehaviour
         timeScaleOrig = Time.timeScale;
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<PlayerController>();
+
+        CalclulateWaveAmount();
     }
 
     // Update is called once per frame
@@ -111,11 +125,16 @@ public class gameManager : MonoBehaviour
     }
 
     // pops up the win menu if all of the enemies are dead
-    public void UpdateGameGoal(int amount)
+    public void UpdateGameGoal()
     {
-        enemyRemaining += amount;
+        enemyCount--;
+        enemyRemaining--;
+        enemyKilled++;
+        //Only need to update the player interface whenever something changes
+        //no need to do every frame
+        playerInterface.UpdatePlayerInterface();
 
-        if(enemyRemaining <= 0)
+        if (enemyRemaining <= 0)
         {
             //Go to buy phase for allotted time period
             StartCoroutine(NextWavePhase());
@@ -148,6 +167,16 @@ public class gameManager : MonoBehaviour
         enemyRemaining = (int)_enemyRemaining;
     }
 
+    void CalculateMoneyAmount()
+    {
+        float _waveModifier = enemyMoneyCurve / Mathf.Log10(currentWave + 1); //Log modifier for enemy spawn count
+        float _waveMultiplier = Mathf.Pow(2, _waveModifier * ((currentWave - 1) / 2)); //Using modifier to create spawn count multiplier
+
+        float _enemyValue = enemyMoneyBase * _waveMultiplier;
+
+        enemyValue = (int)_enemyValue;
+    }
+
     //Phase change handler
     IEnumerator NextWavePhase()
     {
@@ -157,6 +186,9 @@ public class gameManager : MonoBehaviour
 
         currentWave++;
         CalclulateWaveAmount();
+
+        //Update the player interface
+        playerInterface.UpdatePlayerInterface();
         currentPhase = GamePhase.COMBAT;
         canSpawn = true;
     }
@@ -166,8 +198,9 @@ public class gameManager : MonoBehaviour
     {
         canSpawn = false;
 
-        if(enemyCount >= enemyMaxSpawn)
+        if(enemyCount >= enemyMaxSpawn && enemyRemaining > enemyCount)
         {
+            enemyCount++;
             //Spawn an enemy
         }
 
