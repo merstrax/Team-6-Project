@@ -8,6 +8,7 @@ public class gameManager : MonoBehaviour
 
     // the different menus
     [SerializeField] GameObject menuPause;
+    [SerializeField] GameObject menuShop;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
 
@@ -41,7 +42,21 @@ public class gameManager : MonoBehaviour
                 menuActive = menuPause;
                 menuActive.SetActive(isPaused);
             }
-            else if (menuActive == menuPause)
+            else if (menuActive == menuPause || menuActive == menuShop)
+            {
+                StateUnpause();
+            }
+        }
+
+        if(Input.GetButtonDown("Shop"))
+        {
+            if (menuActive == null)
+            {
+                StatePause();
+                menuActive = menuShop;
+                menuActive.SetActive(isPaused);
+            }
+            else if(menuActive == menuShop)
             {
                 StateUnpause();
             }
