@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4692984180182086196}
   - component: {fileID: 615381909995618699}
   m_Layer: 0
-  m_Name: Wall
+  m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6668282640142278106}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.00046685262, y: 0.7003363, z: -0.0004593454, w: 0.7138128}
+  m_LocalRotation: {x: 0.0004672224, y: 0.7003362, z: -0.0004584014, w: 0.71381277}
   m_LocalPosition: {x: -21.55, y: 2, z: -32.52}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3769da4fe6df56949b499c19e3c16d98, type: 2}
+  - {fileID: 2100000, guid: bdc8bef126ca0f949b2ab06812b9552c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
