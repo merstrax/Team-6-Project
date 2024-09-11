@@ -8,6 +8,7 @@ public class gameManager : MonoBehaviour
     public static gameManager instance;
 
     // User Interface Variables
+    [Header("User Interface")]
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuShop;
     [SerializeField] GameObject menuWin;
@@ -18,12 +19,16 @@ public class gameManager : MonoBehaviour
 
     public GameObject damagePanel;
 
+    public playerInterface GetPlayerInterface() { return playerInterface; }
+
     //Game Objects
+    [Header("Player Objects")]
     public GameObject player;
     public PlayerController playerScript;
 
     //Wave variables
-    [SerializeField] int enemyMaxSpawn = 30; //Max amount of enemies on the map at a time.
+    [Header("Wave Variables")]
+    [SerializeField, Tooltip("Max amount of enemies on the map at a time.")] int enemyMaxSpawn = 30; //Max amount of enemies on the map at a time.
     [SerializeField] float enemySpawnTimer = 3.0f;
     [SerializeField] float enemyBaseSpawnCount = 2.0f;
     [SerializeField] float enemyWaveSpawnCurve = 0.2f;
@@ -196,6 +201,7 @@ public class gameManager : MonoBehaviour
         playerInterface.UpdatePlayerInterface();
         currentPhase = GamePhase.COMBAT;
         canSpawn = true;
+        playerScript.PlayNewWaveSound();
     }
 
     //Enemy spawn handler

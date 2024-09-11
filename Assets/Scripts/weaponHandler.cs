@@ -4,27 +4,46 @@ using UnityEngine;
 
 public class weaponHandler : MonoBehaviour
 {
+    [Header("Weapon Components")]
     [SerializeField] Transform firePos;
+    [SerializeField] GameObject bullet;
+    [SerializeField] ParticleSystem partSystem;
+    [SerializeField] AudioSource audioSystem;
+    [SerializeField] AudioClip audioReload;
+    [SerializeField] AudioClip audioEmpty;
+
+    [Header("Weapon Stats")]
     [SerializeField] int damage;
     [SerializeField] float fireRate = 0.1f;
     [SerializeField] int magazineSize = 35;
     [SerializeField] float reloadRate = 3.0f;
 
-    [SerializeField] GameObject bullet;
-    [SerializeField] ParticleSystem partSystem;
-    [SerializeField] AudioSource audioSystem;
-
-    public float GetFireRate()
-    {
-        return fireRate;
-    }
+    public float GetFireRate() { return fireRate; }
+    public int GetCurrentMagazine() { return magazineCurrent; }
+    public int GetMagazineSize() { return magazineSize; }
 
     int magazineCurrent = 0;
+
     bool isReloading;
+    bool isEmptyMagazineSound;
+
+    void Start()
+    {
+        magazineCurrent = magazineSize;
+    }
 
     public void Fire()
     {
-        if(isReloading) return;
+        if (isReloading){ return; }
+
+        if(magazineCurrent <= 0)
+        {
+            if(!isEmptyMagazineSound)
+                StartCoroutine(EmptyMagazine());
+            return;
+        }
+
+
         Vector3 ScreenCentreCoordinates = new Vector3(0.5f + Random.Range(-0.02f, 0.02f), 0.5f + Random.Range(-0.02f, 0.02f), 0f);
         Ray ray = Camera.main.ViewportPointToRay(ScreenCentreCoordinates);
 
@@ -50,12 +69,31 @@ public class weaponHandler : MonoBehaviour
         magazineCurrent -= 1;
     }
 
+    public void DoReload()
+    {
+        if (!isReloading)
+            StartCoroutine(Reload());
+    }
+
     IEnumerator Reload()
     {
         isReloading = true;
-        yield return new WaitForSeconds(reloadRate);
+        audioSystem.PlayOneShot(audioReload);
+        
+        yield return new WaitForSeconds(audioReload.length * 1.2f);
 
         isReloading = false;
+
         magazineCurrent = magazineSize;
+        gameManager.instance.GetPlayerInterface().UpdatePlayerAmmo(magazineCurrent.ToString(), magazineSize.ToString());
+    }
+
+    IEnumerator EmptyMagazine()
+    {
+        isEmptyMagazineSound = true;
+        audioSystem.PlayOneShot(audioEmpty);
+        yield return new WaitForSeconds(audioEmpty.length);
+
+        isEmptyMagazineSound = false;
     }
 }

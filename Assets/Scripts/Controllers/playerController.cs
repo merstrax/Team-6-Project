@@ -45,10 +45,14 @@ public class PlayerController : MonoBehaviour, IDamage
     bool isShooting;
     bool isWalkAudio;
 
+    gameManager game;
+
     // Start is called before the first frame update
     void Start()
     {
+        game = gameManager.instance;
         shootRate = weapon.GetFireRate();
+        game.GetPlayerInterface().UpdatePlayerAmmo(weapon.GetCurrentMagazine().ToString(), weapon.GetMagazineSize().ToString());
     }
 
     // Update is called once per frame
@@ -101,6 +105,11 @@ public class PlayerController : MonoBehaviour, IDamage
         {
             StartCoroutine(Shoot());
         }
+
+        if(Input.GetButtonDown("Reload"))
+        {
+            weapon.DoReload();
+        }
     }
 
     void Sprint()
@@ -118,11 +127,16 @@ public class PlayerController : MonoBehaviour, IDamage
 
     }
 
+    public void PlayNewWaveSound()
+    {
+        audioPlayer.Play();
+    }
+
     IEnumerator Shoot()
     {
         isShooting = true;
         weapon.Fire();
-
+        game.GetPlayerInterface().UpdatePlayerAmmo(weapon.GetCurrentMagazine().ToString(), weapon.GetMagazineSize().ToString());
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
     }

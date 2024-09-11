@@ -9,6 +9,8 @@ public class playerInterface : MonoBehaviour
     [SerializeField] TextMeshProUGUI textEnemiesRemaining;
     [SerializeField] TextMeshProUGUI textEnemiesKilled;
     [SerializeField] TextMeshProUGUI textMoney;
+    [SerializeField] TextMeshProUGUI textAmmoCurrent;
+    [SerializeField] TextMeshProUGUI textAmmoMax;
 
     const string WAVE_TEXT = "Wave: ";
     const string REMAIN_TEXT = "Remaining: ";
@@ -17,10 +19,7 @@ public class playerInterface : MonoBehaviour
 
     void Start()
     {
-        textWave.text = WAVE_TEXT + gameManager.instance.GetCurrentWave().ToString();
-        textEnemiesRemaining.text = REMAIN_TEXT + gameManager.instance.GetEnemiesRemaining().ToString();
-        textEnemiesKilled.text = KILLED_TEXT + gameManager.instance.GetEnemiesKilled().ToString();
-        textMoney.text = MONEY_TEXT + gameManager.instance.GetPlayerMoney().ToString();
+        UpdatePlayerInterface();
     }
 
     public void UpdatePlayerInterface()
@@ -29,5 +28,11 @@ public class playerInterface : MonoBehaviour
         textEnemiesRemaining.text = REMAIN_TEXT + gameManager.instance.GetEnemiesRemaining().ToString();
         textEnemiesKilled.text = KILLED_TEXT + gameManager.instance.GetEnemiesKilled().ToString();
         textMoney.text = MONEY_TEXT + gameManager.instance.GetPlayerMoney().ToString();
+    }
+
+    public void UpdatePlayerAmmo(string currentAmmo, string maxAmmo)
+    {
+        textAmmoCurrent.text = currentAmmo;
+        textAmmoMax.text = "/" + maxAmmo;
     }
 }
