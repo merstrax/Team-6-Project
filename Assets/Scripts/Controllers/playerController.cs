@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamage
 {
     //Player logic variables
+    [Header("Player Controller")]
     [SerializeField] CharacterController controller;
     [SerializeField] LayerMask ignoreMask;
 
+    [Header("Player Stats")]
+    [SerializeField] int healthMax;
+
     //Player Movement
+    [Header("Player Movement")]
     [SerializeField] float speed;
     [SerializeField] float sprintMod;
     [SerializeField] int jumpMax;
@@ -17,18 +22,28 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int gravity;
 
     //Player Shoot
+    [Header("Player Weapon")]
     [SerializeField] weaponHandler weapon;
     [SerializeField] int shootDamage;
     [SerializeField] float shootRate;
     [SerializeField] float shootDistance;
 
+    [Header("Player Audio")]
+    [SerializeField] AudioSource audioPlayer;
+    [SerializeField] AudioClip[] audioDamage;
+    [SerializeField] AudioClip[] audioWalk;
+    [SerializeField] AudioClip[] audioJump;
+
     Vector3 moveDir;
     Vector3 playerVel;
+
+    int healthCurrent;
 
     int jumpCount;
 
     bool isSprinting;
     bool isShooting;
+    bool isWalkAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -70,10 +85,17 @@ public class PlayerController : MonoBehaviour
         {
             jumpCount++;
             playerVel.y = jumpSpeed;
+            int rand = Random.Range(0, audioJump.Length);
+            audioPlayer.PlayOneShot(audioJump[rand]);
         }
 
         controller.Move(playerVel * Time.deltaTime);
         playerVel.y -= gravity * Time.deltaTime;
+
+        if (moveDir != Vector3.zero && !isWalkAudio)
+        {
+            StartCoroutine(WalkAudio());
+        }
 
         if (Input.GetButton("Shoot") && !isShooting)
         {
@@ -103,5 +125,32 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
+    }
+
+    IEnumerator WalkAudio()
+    {
+        isWalkAudio = true;
+        int rand = Random.Range(0, audioWalk.Length);
+        audioPlayer.PlayOneShot(audioWalk[rand], 0.2f);
+
+        float audioDelay = 1.5f;
+
+        if (isSprinting)
+            audioDelay = 1.0f;
+
+        yield return new WaitForSeconds(audioWalk[rand].length * audioDelay);
+        isWalkAudio = false;
+    }
+
+    public void TakeDamage(float amount)
+    {
+        healthCurrent -= (int)amount;
+        int rand = Random.Range(0, audioDamage.Length);
+        audioPlayer.PlayOneShot(audioDamage[rand], 0.5f);
+
+        if(healthCurrent <= 0)
+        {
+            gameManager.instance.YouLose();
+        }
     }
 }
