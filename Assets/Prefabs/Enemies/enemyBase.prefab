@@ -87,8 +87,8 @@ MonoBehaviour:
   headPos: {fileID: 7631107346501891345}
   HP: 3
   faceTargetSpeed: 0
-  bullet: {fileID: 0}
-  shootRate: 0
+  bullet: {fileID: 23090829022106226, guid: ce2a2c0f1dcd40343b83df751fe121aa, type: 3}
+  shootRate: 2
 --- !u!195 &1953037335177796012
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -103,7 +103,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 3
+  m_StoppingDistance: 8
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1

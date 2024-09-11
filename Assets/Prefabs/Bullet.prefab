@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   rigidBody: {fileID: 3759429639081683262}
-  damageAmount: 1
+  damageAmount: 0
   speed: 25
   destroyTime: 2
 --- !u!135 &804082064573781292
@@ -99,7 +99,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 2
+  m_CollisionDetection: 1
 --- !u!96 &7893713397871031723
 TrailRenderer:
   serializedVersion: 3

@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour, IDamage
         game = gameManager.instance;
         shootRate = weapon.GetFireRate();
         game.GetPlayerInterface().UpdatePlayerAmmo(weapon.GetCurrentMagazine().ToString(), weapon.GetMagazineSize().ToString());
+        healthCurrent = healthMax;
     }
 
     // Update is called once per frame

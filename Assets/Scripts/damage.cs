@@ -24,7 +24,7 @@ public class damage : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.isTrigger)
+        if (other.GetComponent<enemyAI>() != null)
             return;
 
         IDamage dmg = other.GetComponent<IDamage>();
