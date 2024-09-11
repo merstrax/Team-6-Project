@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour, IDamage
         shootRate = weapon.GetFireRate();
         game.GetPlayerInterface().UpdatePlayerAmmo(weapon.GetCurrentMagazine().ToString(), weapon.GetMagazineSize().ToString());
         healthCurrent = healthMax;
+        updatePlayerHP();
     }
 
     // Update is called once per frame
@@ -160,6 +161,7 @@ public class PlayerController : MonoBehaviour, IDamage
     public void TakeDamage(float amount)
     {
         healthCurrent -= (int)amount;
+        updatePlayerHP();
         int rand = Random.Range(0, audioDamage.Length);
         audioPlayer.PlayOneShot(audioDamage[rand], 0.5f);
 
@@ -167,5 +169,9 @@ public class PlayerController : MonoBehaviour, IDamage
         {
             gameManager.instance.YouLose();
         }
+    }
+    public void updatePlayerHP()
+    {
+        gameManager.instance.playerHPBar.fillAmount = (float)healthCurrent / healthMax;
     }
 }
