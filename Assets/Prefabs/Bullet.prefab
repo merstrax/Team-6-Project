@@ -50,7 +50,7 @@ MonoBehaviour:
   type: 0
   rigidBody: {fileID: 3759429639081683262}
   damageAmount: 1
-  speed: 100
+  speed: 25
   destroyTime: 2
 --- !u!135 &804082064573781292
 SphereCollider:
