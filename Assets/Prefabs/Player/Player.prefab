@@ -166,6 +166,7 @@ MonoBehaviour:
   ignoreMask:
     serializedVersion: 2
     m_Bits: 8
+  healthMax: 0
   speed: 4
   sprintMod: 1.5
   jumpMax: 2
@@ -522,6 +523,10 @@ PrefabInstance:
       propertyPath: audioEmpty
       value: 
       objectReference: {fileID: 8300000, guid: 9d280e14fb17e8c43af9b5d87a41288a, type: 3}
+    - target: {fileID: 7398135165045022303, guid: 3a1b02d561f86694ea8b0e521d629259, type: 3}
+      propertyPath: reloadRate
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7398135165045022303, guid: 3a1b02d561f86694ea8b0e521d629259, type: 3}
       propertyPath: audioReload
       value: 
