@@ -11,6 +11,10 @@ public class damage : MonoBehaviour
     [SerializeField] int damageAmount;
     [SerializeField] int speed;
     [SerializeField] int destroyTime;
+    [SerializeField] float damageRate;
+
+
+    bool canDamage = true;
 
     // Start is called before the first frame update
     void Start()
@@ -28,14 +32,23 @@ public class damage : MonoBehaviour
             return;
 
         IDamage dmg = other.GetComponent<IDamage>();
-        if (dmg != null)
+        if (dmg != null && canDamage)
         {
-            dmg.TakeDamage(damageAmount);
+            StartCoroutine(DoDamage(dmg));
         }
 
         if (type == damageType.bullet)
         {
             Destroy(gameObject);
         }
+    }
+
+    IEnumerator DoDamage(IDamage dmg)
+    {
+        canDamage = false;
+        dmg.TakeDamage(damageAmount);
+        yield return new WaitForSeconds(damageRate);
+
+        canDamage = true;
     }
 }
