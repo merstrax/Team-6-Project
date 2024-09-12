@@ -188,4 +188,9 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         TakeDamage(amount);
     }
+
+    public weaponHandler GetWeapon()
+    {
+        return weapon;
+    }
 }

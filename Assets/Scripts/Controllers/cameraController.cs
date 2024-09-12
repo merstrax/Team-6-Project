@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class cameraController : MonoBehaviour
 {
-    [SerializeField] int sensitivity;
+    [SerializeField] float senseNormal;
+    [SerializeField] float senseADS;
     [SerializeField] int lockVertMin, lockVertMax;
     [SerializeField] bool invertY;
 
@@ -17,6 +18,8 @@ public class cameraController : MonoBehaviour
     [SerializeField] Transform weaponPosNorm;
 
     float rotX;
+    float sensitivity;
+
 
     // Start is called before the first frame update
     void Start()
@@ -33,22 +36,25 @@ public class cameraController : MonoBehaviour
         float recoilX = 0.0f;
         float recoilY = 0.0f;
 
-        if(gameManager.instance.playerScript.IsShooting())
+        if(gameManager.instance.playerScript.IsShooting() && gameManager.instance.playerScript.GetWeapon().HasAmmo())
         {
             recoilX = Random.Range(-0.07f, 0.07f);
             recoilY = Random.Range(-0.01f, 0.1f);
         }
 
-        if (Input.GetButton("Aim"))
+        if (Input.GetButton("Aim") && !gameManager.instance.playerScript.GetWeapon().IsReloading())
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, fovADS, adsSpeed * Time.deltaTime);
             weaponPos.localPosition = Vector3.Lerp(weaponPos.localPosition, weaponPosADS.localPosition, adsSpeed * Time.deltaTime);
             recoilX *= 0.5f;
             recoilY *= 0.5f;
-        }else
+            sensitivity = senseADS;
+        }
+        else
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, fovNormal, adsSpeed * Time.deltaTime);
             weaponPos.localPosition = Vector3.Lerp(weaponPos.localPosition, weaponPosNorm.localPosition, adsSpeed * Time.deltaTime);
+            sensitivity = senseNormal;
         }
 
         float mouseY = (Input.GetAxis("Mouse Y") + recoilY) * sensitivity * Time.deltaTime;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class weaponHandler : MonoBehaviour
@@ -36,7 +37,7 @@ public class weaponHandler : MonoBehaviour
     {
         if (isReloading){ return; }
 
-        if(magazineCurrent <= 0)
+        if(!HasAmmo())
         {
             if(!isEmptyMagazineSound)
                 StartCoroutine(EmptyMagazine());
@@ -67,6 +68,16 @@ public class weaponHandler : MonoBehaviour
         audioSystem.PlayOneShot(audioSystem.clip);
 
         magazineCurrent -= 1;
+    }
+
+    public bool HasAmmo()
+    {
+        return magazineCurrent > 0;
+    }
+
+    public bool IsReloading()
+    {
+        return isReloading;
     }
 
     public void DoReload()
