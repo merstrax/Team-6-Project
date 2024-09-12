@@ -39,7 +39,7 @@ public class gameManager : MonoBehaviour
 
     [SerializeField] float buyPhaseTimer = 30.0f; //Time in seconds
 
-    [SerializeField] enemySpawner[] enemySpawners;
+    enemySpawner[] enemySpawners;
 
     int currentWave = 1;
     public int GetCurrentWave() { return currentWave; }
@@ -73,6 +73,9 @@ public class gameManager : MonoBehaviour
         playerScript = player.GetComponent<PlayerController>();
 
         CalclulateWaveAmount();
+
+        enemySpawners = GameObject.FindObjectsByType<enemySpawner>(FindObjectsSortMode.None);
+        if (enemySpawners.Length == 0) canSpawn = false;
     }
 
     // Update is called once per frame

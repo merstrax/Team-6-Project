@@ -165,7 +165,7 @@ MonoBehaviour:
   controller: {fileID: 4759681594807076026}
   ignoreMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 264
   healthMax: 10
   speed: 4
   sprintMod: 1.5
@@ -213,7 +213,7 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5
-  m_SlopeLimit: 45
+  m_SlopeLimit: 10
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
