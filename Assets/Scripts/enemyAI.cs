@@ -19,10 +19,14 @@ public class enemyAI : MonoBehaviour, IDamage
 
     [SerializeField] GameObject bullet;
     [SerializeField] float shootRate;
+    [SerializeField] float attackRate;
+    [SerializeField] float attackRange;
+    [SerializeField] float attackDamage; 
 
     Color colorOrig;
 
     bool playerInRange;
+    bool isAttacking; 
     bool isShooting;
     bool isDead;
 
@@ -122,6 +126,15 @@ public class enemyAI : MonoBehaviour, IDamage
         //Instantiate(bullet, shootPos.position, transform.rotation);
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
+    }
+
+    IEnumerator Attack()
+    {
+        isAttacking = true;
+
+        yield return new WaitForSeconds(attackRate); 
+        isAttacking = false;
+         
     }
 
     void PlayHitMarkerSound()

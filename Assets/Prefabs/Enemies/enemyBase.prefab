@@ -81,6 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21751e093eef4ee4c8d55d16d4a34064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   model: {fileID: 1336872441243675463}
   agent: {fileID: 1953037335177796012}
   shootPos: {fileID: 1059383534602428251}
@@ -88,9 +89,12 @@ MonoBehaviour:
   audioPlayer: {fileID: 0}
   audioHitMarker: {fileID: 8300000, guid: e3e03447492ddb6408757f93a6eb9843, type: 3}
   HP: 4
-  faceTargetSpeed: 0
+  faceTargetSpeed: 15
   bullet: {fileID: 23090829022106226, guid: ce2a2c0f1dcd40343b83df751fe121aa, type: 3}
   shootRate: 2
+  attackRate: 5
+  attackRange: 3
+  attackDamage: 1
 --- !u!195 &1953037335177796012
 NavMeshAgent:
   m_ObjectHideFlags: 0
