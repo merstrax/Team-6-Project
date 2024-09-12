@@ -13,7 +13,6 @@ public class damage : MonoBehaviour
     [SerializeField] int destroyTime;
     [SerializeField] float damageRate;
 
-
     bool canDamage = true;
 
     // Start is called before the first frame update

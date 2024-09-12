@@ -2171,7 +2171,7 @@ MonoBehaviour:
   HP: 3
   faceTargetSpeed: 12
   bullet: {fileID: 8813393818493658519, guid: cc1a417ebee220a40b7fa14118254118, type: 3}
-  shootRate: 2
+  shootRate: 1
 --- !u!95 &5492994717384822836
 Animator:
   serializedVersion: 5
