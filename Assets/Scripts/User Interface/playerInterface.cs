@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class playerInterface : MonoBehaviour
 {
@@ -11,11 +12,12 @@ public class playerInterface : MonoBehaviour
     [SerializeField] TextMeshProUGUI textMoney;
     [SerializeField] TextMeshProUGUI textAmmoCurrent;
     [SerializeField] TextMeshProUGUI textAmmoMax;
+    [SerializeField] Image playerHealthBar;
 
     const string WAVE_TEXT = "Wave: ";
     const string REMAIN_TEXT = "Remaining: ";
     const string KILLED_TEXT = "Killed: ";
-    const string MONEY_TEXT = "Money: $";
+    const string MONEY_TEXT = "$";
 
     void Start()
     {
@@ -34,5 +36,9 @@ public class playerInterface : MonoBehaviour
     {
         textAmmoCurrent.text = currentAmmo;
         textAmmoMax.text = "/" + maxAmmo;
+    }
+    public void UpdatePlayerHealth(int health, int maxHealth)
+    {
+        playerHealthBar.fillAmount = (float)health / maxHealth;
     }
 }

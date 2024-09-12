@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour, IDamage
         shootRate = weapon.GetFireRate();
         game.GetPlayerInterface().UpdatePlayerAmmo(weapon.GetCurrentMagazine().ToString(), weapon.GetMagazineSize().ToString());
         healthCurrent = healthMax;
-        updatePlayerHP();
+        game.GetPlayerInterface().UpdatePlayerHealth(healthCurrent, healthMax);
     }
 
     // Update is called once per frame
@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour, IDamage
     public void TakeDamage(float amount)
     {
         healthCurrent -= (int)amount;
-        updatePlayerHP();
+        game.GetPlayerInterface().UpdatePlayerHealth(healthCurrent, healthMax);
         StartCoroutine(DamageFlash()); 
 
         int rand = Random.Range(0, audioDamage.Length);
@@ -181,8 +181,4 @@ public class PlayerController : MonoBehaviour, IDamage
         gameManager.instance.damagePanel.SetActive(false); 
     }
 
-    public void updatePlayerHP()
-    {
-        gameManager.instance.playerHPBar.fillAmount = (float)healthCurrent / healthMax;
-    }
 }
