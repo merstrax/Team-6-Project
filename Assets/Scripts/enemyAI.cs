@@ -10,6 +10,9 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] Transform shootPos;
     [SerializeField] Transform headPos;
 
+    [SerializeField] AudioSource audioPlayer; 
+    [SerializeField] AudioClip audioHitMarker; 
+
     [SerializeField] float HP;
     [SerializeField] int faceTargetSpeed;
 
@@ -41,7 +44,7 @@ public class enemyAI : MonoBehaviour, IDamage
             FaceTarget();
         }
 
-        //if (playerInRange)
+        if (playerInRange)
         {
             if (!isShooting)
             {
@@ -71,7 +74,8 @@ public class enemyAI : MonoBehaviour, IDamage
     {
         HP -= amount;
 
-        StartCoroutine(DamageTakenFlash());
+        //StartCoroutine(DamageTakenFlash());
+        PlayHitMarkerSound(); 
 
         if (HP <= 0)
         {
@@ -104,5 +108,13 @@ public class enemyAI : MonoBehaviour, IDamage
         Instantiate(bullet, shootPos.position, transform.rotation);
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
+    }
+
+    void PlayHitMarkerSound()
+    {
+        if(audioPlayer != null && audioHitMarker != null)
+        {
+            audioPlayer.PlayOneShot(audioHitMarker); 
+        }    
     }
 }

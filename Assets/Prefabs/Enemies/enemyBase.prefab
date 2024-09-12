@@ -85,7 +85,9 @@ MonoBehaviour:
   agent: {fileID: 1953037335177796012}
   shootPos: {fileID: 1059383534602428251}
   headPos: {fileID: 7631107346501891345}
-  HP: 3
+  audioPlayer: {fileID: 0}
+  audioHitMarker: {fileID: 8300000, guid: e3e03447492ddb6408757f93a6eb9843, type: 3}
+  HP: 4
   faceTargetSpeed: 0
   bullet: {fileID: 23090829022106226, guid: ce2a2c0f1dcd40343b83df751fe121aa, type: 3}
   shootRate: 2
