@@ -103,7 +103,7 @@ public class enemyAI : MonoBehaviour, IDamage
     void Die()
     {
         gameManager.instance.UpdateGameGoal();
-        animator.SetTrigger("OnDeath");
+        animator.Play("Z_FallingBack");
         isDead = true;
         agent.isStopped = true;
         Destroy(gameObject, 3.0f);
