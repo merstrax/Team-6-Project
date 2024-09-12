@@ -158,7 +158,7 @@ public class gameManager : MonoBehaviour
     {
         StatePause();
         menuActive = menuLose;
-        menuActive.SetActive(isPaused);
+        menuActive.SetActive(true);
     }
 
     public bool CanBuy()
