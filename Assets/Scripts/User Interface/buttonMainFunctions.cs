@@ -26,4 +26,9 @@ public class buttonMainFunctions : MonoBehaviour
     #endif
     }
 
+    public void startgame()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
+
 }
