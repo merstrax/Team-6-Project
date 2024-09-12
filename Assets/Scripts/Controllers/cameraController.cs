@@ -8,8 +8,9 @@ public class cameraController : MonoBehaviour
     [SerializeField] int lockVertMin, lockVertMax;
     [SerializeField] bool invertY;
 
-    [SerializeField] int fovNormal;
-    [SerializeField] int fovADS;
+    [SerializeField] float fovNormal;
+    [SerializeField] float fovADS;
+    [SerializeField] float adsSpeed;
 
     [SerializeField] Transform weaponPos;
     [SerializeField] Transform weaponPosADS;
@@ -40,16 +41,14 @@ public class cameraController : MonoBehaviour
 
         if (Input.GetButton("Aim"))
         {
-            Camera.main.fieldOfView = fovADS;
-            weaponPos.localPosition = weaponPosADS.localPosition;
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, fovADS, adsSpeed * Time.deltaTime);
+            weaponPos.localPosition = Vector3.Lerp(weaponPos.localPosition, weaponPosADS.localPosition, adsSpeed * Time.deltaTime);
             recoilX *= 0.5f;
             recoilY *= 0.5f;
-        }
-
-        if(Input.GetButtonUp("Aim"))
+        }else
         {
-            Camera.main.fieldOfView = fovNormal;
-            weaponPos.localPosition = weaponPosNorm.localPosition;
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, fovNormal, adsSpeed * Time.deltaTime);
+            weaponPos.localPosition = Vector3.Lerp(weaponPos.localPosition, weaponPosNorm.localPosition, adsSpeed * Time.deltaTime);
         }
 
         float mouseY = (Input.GetAxis("Mouse Y") + recoilY) * sensitivity * Time.deltaTime;
