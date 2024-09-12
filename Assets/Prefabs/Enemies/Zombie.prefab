@@ -2172,7 +2172,7 @@ MonoBehaviour:
   audioPlayer: {fileID: 8254101265250900317}
   audioHitMarker: {fileID: 8300000, guid: e3e03447492ddb6408757f93a6eb9843, type: 3}
   HP: 3
-  faceTargetSpeed: 16
+  faceTargetSpeed: 15
   bullet: {fileID: 8813393818493658519, guid: cc1a417ebee220a40b7fa14118254118, type: 3}
   shootRate: 1
 --- !u!95 &5492994717384822836
