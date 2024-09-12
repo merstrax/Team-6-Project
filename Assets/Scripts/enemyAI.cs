@@ -106,6 +106,11 @@ public class enemyAI : MonoBehaviour, IDamage
         animator.Play("Z_FallingBack");
         isDead = true;
         agent.isStopped = true;
+
+        foreach (damage d in GetComponentsInChildren<damage>())
+            Destroy(d);
+
+        Destroy(GetComponent<CapsuleCollider>());
         Destroy(gameObject, 3.0f);
     }
 
