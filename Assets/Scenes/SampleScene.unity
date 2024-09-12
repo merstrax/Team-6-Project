@@ -430,7 +430,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &249133773
 RectTransform:
   m_ObjectHideFlags: 0
@@ -440,7 +440,7 @@ RectTransform:
   m_GameObject: {fileID: 249133772}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 19.577726, y: 10.81, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1761989904}
@@ -463,7 +463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.39215687}
+  m_Color: {r: 1, g: 0, b: 0, a: 0.08627451}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3796,6 +3796,10 @@ PrefabInstance:
       propertyPath: menuLose
       value: 
       objectReference: {fileID: 1530803401}
+    - target: {fileID: 7951523666416119533, guid: c9b7e799d94fd7f45b4938dfec92eec7, type: 3}
+      propertyPath: damagePanel
+      value: 
+      objectReference: {fileID: 249133772}
     - target: {fileID: 7951523666416119533, guid: c9b7e799d94fd7f45b4938dfec92eec7, type: 3}
       propertyPath: playerHPBar
       value: 

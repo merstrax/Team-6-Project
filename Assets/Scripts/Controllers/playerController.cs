@@ -162,6 +162,8 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         healthCurrent -= (int)amount;
         updatePlayerHP();
+        StartCoroutine(DamageFlash()); 
+
         int rand = Random.Range(0, audioDamage.Length);
         audioPlayer.PlayOneShot(audioDamage[rand], 0.5f);
 
@@ -170,6 +172,15 @@ public class PlayerController : MonoBehaviour, IDamage
             gameManager.instance.YouLose();
         }
     }
+
+    IEnumerator DamageFlash() 
+    {
+        gameManager.instance.damagePanel.SetActive(true);
+        yield return new WaitForSeconds(0.25f); 
+
+        gameManager.instance.damagePanel.SetActive(false); 
+    }
+
     public void updatePlayerHP()
     {
         gameManager.instance.playerHPBar.fillAmount = (float)healthCurrent / healthMax;
