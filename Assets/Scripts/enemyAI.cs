@@ -110,7 +110,7 @@ public class enemyAI : MonoBehaviour, IDamage
         foreach (damage d in GetComponentsInChildren<damage>())
             Destroy(d);
 
-        Destroy(GetComponent<CapsuleCollider>());
+        Destroy(GetComponentInChildren<MeshCollider>());
         Destroy(gameObject, 3.0f);
     }
 
