@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 5980953514612701432}
   - component: {fileID: 6085826113247406523}
   - component: {fileID: 5463811323921489929}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ MonoBehaviour:
   ignoreMask:
     serializedVersion: 2
     m_Bits: 8
-  healthMax: 0
+  healthMax: 10
   speed: 4
   sprintMod: 1.5
   jumpMax: 2
@@ -285,7 +285,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2

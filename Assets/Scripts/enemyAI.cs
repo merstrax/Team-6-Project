@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class enemyAI : MonoBehaviour, IDamage
 {
+    [SerializeField] Animator animator;
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform shootPos;
@@ -23,32 +24,39 @@ public class enemyAI : MonoBehaviour, IDamage
 
     bool playerInRange;
     bool isShooting;
+    bool isDead;
 
     Vector3 playerDir;
 
     // Start is called before the first frame update
     void Start()
     {
-        colorOrig = model.material.color;
+        //colorOrig = model.material.color;
     }
 
     // Update is called once per frame
     void Update()
     {
-        playerDir = gameManager.instance.player.transform.position - headPos.position;
-
-        agent.SetDestination(gameManager.instance.player.transform.position);
-
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if (!isDead)
         {
-            FaceTarget();
-        }
+            playerDir = gameManager.instance.player.transform.position - headPos.position;
 
-        if (playerInRange)
-        {
-            if (!isShooting)
+            agent.SetDestination(gameManager.instance.player.transform.position);
+
+            if (animator != null)
+                animator.SetBool("IsMoving", agent.velocity != Vector3.zero);
+
+            if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                StartCoroutine(Shoot());
+                FaceTarget();
+            }
+
+            if (playerInRange)
+            {
+                if (!isShooting)
+                {
+                    StartCoroutine(Shoot());
+                }
             }
         }
     }
@@ -58,6 +66,7 @@ public class enemyAI : MonoBehaviour, IDamage
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
+            animator.SetBool("CanAttack", playerInRange);
         }
     }
 
@@ -66,6 +75,7 @@ public class enemyAI : MonoBehaviour, IDamage
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
+            animator.SetBool("CanAttack", playerInRange);
         }
     }
 
@@ -77,7 +87,7 @@ public class enemyAI : MonoBehaviour, IDamage
         //StartCoroutine(DamageTakenFlash());
         PlayHitMarkerSound(); 
 
-        if (HP <= 0)
+        if (HP <= 0 && !isDead)
         {
             Die();
         }
@@ -93,7 +103,10 @@ public class enemyAI : MonoBehaviour, IDamage
     void Die()
     {
         gameManager.instance.UpdateGameGoal();
-        Destroy(gameObject); 
+        animator.SetTrigger("OnDeath");
+        isDead = true;
+        agent.isStopped = true;
+        Destroy(gameObject, 3.0f);
     }
 
     void FaceTarget()
@@ -105,7 +118,8 @@ public class enemyAI : MonoBehaviour, IDamage
     IEnumerator Shoot()
     {
         isShooting = true;
-        Instantiate(bullet, shootPos.position, transform.rotation);
+        
+        //Instantiate(bullet, shootPos.position, transform.rotation);
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
     }
