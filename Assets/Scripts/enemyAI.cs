@@ -20,6 +20,8 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] GameObject bullet;
     [SerializeField] float shootRate;
 
+    [SerializeField] ParticleSystem particle;
+
     Color colorOrig;
 
     bool playerInRange;
@@ -91,6 +93,13 @@ public class enemyAI : MonoBehaviour, IDamage
         {
             Die();
         }
+    }
+
+    public void TakeDamage(float amount, Vector3 loc, Quaternion rot)
+    {
+        TakeDamage(amount);
+        particle.transform.SetPositionAndRotation(loc, rot);
+        particle.Play();
     }
 
     IEnumerator DamageTakenFlash()

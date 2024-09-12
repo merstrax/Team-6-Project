@@ -42,7 +42,10 @@ public class PlayerController : MonoBehaviour, IDamage
     int jumpCount;
 
     bool isSprinting;
+    
     bool isShooting;
+    public bool IsShooting() { return isShooting; }
+
     bool isWalkAudio;
 
     gameManager game;
@@ -181,4 +184,8 @@ public class PlayerController : MonoBehaviour, IDamage
         gameManager.instance.damagePanel.SetActive(false); 
     }
 
+    public void TakeDamage(float amount, Vector3 loc, Quaternion rotation)
+    {
+        TakeDamage(amount);
+    }
 }

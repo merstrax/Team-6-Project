@@ -39,7 +39,7 @@ public class gameManager : MonoBehaviour
 
     [SerializeField] float buyPhaseTimer = 30.0f; //Time in seconds
 
-    enemySpawner[] enemySpawners;
+    public enemySpawner[] enemySpawners;
 
     int currentWave = 1;
     public int GetCurrentWave() { return currentWave; }

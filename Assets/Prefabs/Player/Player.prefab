@@ -519,6 +519,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6416188635169691329, guid: 3a1b02d561f86694ea8b0e521d629259, type: 3}
+      propertyPath: LightsModule.ratio
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6416188635169691329, guid: 3a1b02d561f86694ea8b0e521d629259, type: 3}
+      propertyPath: LightsModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6416188635169691329, guid: 3a1b02d561f86694ea8b0e521d629259, type: 3}
+      propertyPath: LightsModule.intensityCurve.scalar
+      value: 2.04
+      objectReference: {fileID: 0}
     - target: {fileID: 7398135165045022303, guid: 3a1b02d561f86694ea8b0e521d629259, type: 3}
       propertyPath: audioEmpty
       value: 

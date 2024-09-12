@@ -44,7 +44,7 @@ public class weaponHandler : MonoBehaviour
         }
 
 
-        Vector3 ScreenCentreCoordinates = new Vector3(0.5f + Random.Range(-0.02f, 0.02f), 0.5f + Random.Range(-0.02f, 0.02f), 0f);
+        Vector3 ScreenCentreCoordinates = new Vector3(0.5f, 0.5f, 0f);
         Ray ray = Camera.main.ViewportPointToRay(ScreenCentreCoordinates);
 
         if (Physics.Raycast(ray, out RaycastHit hit))
@@ -53,7 +53,7 @@ public class weaponHandler : MonoBehaviour
 
             if (dmg != null)
             {
-                dmg.TakeDamage(damage);
+                dmg.TakeDamage(damage, hit.point + hit.normal * 0.001f, Quaternion.FromToRotation(Vector3.forward, hit.normal));
             }
             else
             {
