@@ -31,9 +31,21 @@ public class damage : MonoBehaviour
             return;
 
         IDamage dmg = other.GetComponent<IDamage>();
-        if (dmg != null && canDamage)
+        if (dmg != null)
         {
-            StartCoroutine(DoDamage(dmg));
+            if (type != damageType.stationary)
+            {
+                dmg.TakeDamage(damageAmount);
+            }
+            else if (canDamage)
+            {
+                StartCoroutine(DoDamage(dmg));
+            }
+
+            if (type == damageType.melee)
+            {
+                gameObject.SetActive(false);
+            }
         }
 
         if (type == damageType.bullet)

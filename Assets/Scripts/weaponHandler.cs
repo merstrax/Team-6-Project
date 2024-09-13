@@ -28,6 +28,8 @@ public class weaponHandler : MonoBehaviour
     bool isReloading;
     bool isEmptyMagazineSound;
 
+    [SerializeField] GameObject hitCol;
+
     void Start()
     {
         magazineCurrent = magazineSize;
@@ -50,11 +52,14 @@ public class weaponHandler : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            IDamage dmg = hit.collider.GetComponent<IDamage>();
+            IDamage dmg = hit.collider.gameObject.GetComponentInParent<IDamage>();
 
             if (dmg != null)
             {
-                dmg.TakeDamage(damage, hit.point + hit.normal * 0.001f, Quaternion.FromToRotation(Vector3.forward, hit.normal));
+                if(hit.collider.CompareTag("Head"))
+                    dmg.TakeDamage(damage * 3, hit.point + hit.normal * 0.001f, Quaternion.FromToRotation(Vector3.forward, hit.normal), true);
+                else
+                    dmg.TakeDamage(damage, hit.point + hit.normal * 0.001f, Quaternion.FromToRotation(Vector3.forward, hit.normal));
             }
             else
             {

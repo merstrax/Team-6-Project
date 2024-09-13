@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour, IDamage
         isWalkAudio = false;
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, bool headshot = false)
     {
         healthCurrent -= (int)amount;
         game.GetPlayerInterface().UpdatePlayerHealth(healthCurrent, healthMax);
@@ -184,7 +184,7 @@ public class PlayerController : MonoBehaviour, IDamage
         gameManager.instance.damagePanel.SetActive(false); 
     }
 
-    public void TakeDamage(float amount, Vector3 loc, Quaternion rotation)
+    public void TakeDamage(float amount, Vector3 loc, Quaternion rotation, bool headshot = false)
     {
         TakeDamage(amount);
     }

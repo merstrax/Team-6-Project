@@ -3,9 +3,7 @@ guid: 50839e6e712d0144c8a7d6d27007ade7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - shopPanel: {instanceID: 0}
-  - weaponPanel: {fileID: 8450345162001829071, guid: 8f963f6f99ce6d74abdf6b9268b1331c, type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
