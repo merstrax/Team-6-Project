@@ -42,6 +42,8 @@ public class cameraController : MonoBehaviour
             recoilY = Random.Range(-0.01f, 0.1f);
         }
 
+        sensitivity = senseNormal;
+
         if (Input.GetButton("Aim") && !gameManager.instance.playerScript.GetWeapon().IsReloading())
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, fovADS, adsSpeed * Time.deltaTime);
@@ -50,11 +52,10 @@ public class cameraController : MonoBehaviour
             recoilY *= 0.5f;
             sensitivity = senseADS;
         }
-        else
+        else if(Camera.main.fieldOfView < fovNormal)
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, fovNormal, adsSpeed * Time.deltaTime);
             weaponPos.localPosition = Vector3.Lerp(weaponPos.localPosition, weaponPosNorm.localPosition, adsSpeed * Time.deltaTime);
-            sensitivity = senseNormal;
         }
 
         float mouseY = (Input.GetAxis("Mouse Y") + recoilY) * sensitivity * Time.deltaTime;
