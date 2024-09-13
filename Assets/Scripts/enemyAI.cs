@@ -5,30 +5,39 @@ using UnityEngine.AI;
 
 public class enemyAI : MonoBehaviour, IDamage
 {
+    [Header("Render Components")]
     [SerializeField] Animator animator;
     [SerializeField] Renderer model;
+    [SerializeField] ParticleSystem particle;
+
+    [Header("AI Nav")]
     [SerializeField] NavMeshAgent agent;
-    [SerializeField] Transform shootPos;
     [SerializeField] Transform headPos;
-
-    [SerializeField] AudioSource audioPlayer; 
-    [SerializeField] AudioClip audioHitMarker; 
-
-    [SerializeField] float HP;
     [SerializeField] int faceTargetSpeed;
 
-    [SerializeField] GameObject bullet;
-    [SerializeField] float shootRate;
+    [Header("Audio")]
+    [SerializeField] AudioSource audioPlayer; 
+    [SerializeField] AudioClip audioHitMarker;
+    [SerializeField] AudioClip audioHeadShot;
 
-    [SerializeField] ParticleSystem particle;
+    [Header("Enemy Combat")]
+    [SerializeField] float HP;
+    [SerializeField] Transform shootPos;
+    [SerializeField] GameObject rightHandPos;
+    [SerializeField] GameObject leftHandPos;
+    [SerializeField] GameObject bullet;
+    [SerializeField] float attackRate;
 
     Color colorOrig;
 
     bool playerInRange;
-    bool isShooting;
+    bool isAttacking;
     bool isDead;
+    public bool isMoving;
+    public bool canAttack = true;
 
     Vector3 playerDir;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -44,20 +53,28 @@ public class enemyAI : MonoBehaviour, IDamage
             playerDir = gameManager.instance.player.transform.position - headPos.position;
 
             agent.SetDestination(gameManager.instance.player.transform.position);
+            isMoving = !((agent.remainingDistance <= agent.stoppingDistance) || (agent.velocity == Vector3.zero));
 
-            if (animator != null)
-                animator.SetBool("IsMoving", agent.velocity != Vector3.zero);
 
-            if (agent.remainingDistance <= agent.stoppingDistance)
+            animator.SetBool("IsMoving", isMoving);
+            if (isMoving)
+            {
+                if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Z_Attack"))
+                    animator.Play("Z_Run_InPlace");
+            }
+            else
             {
                 FaceTarget();
+                if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Z_Attack"))
+                    animator.Play("Z_Idle");
             }
 
+            animator.SetBool("CanAttack", playerInRange);
             if (playerInRange)
-            {
-                if (!isShooting)
+            { 
+                if (canAttack)
                 {
-                    StartCoroutine(Shoot());
+                    StartCoroutine(DoAttack());
                 }
             }
         }
@@ -68,7 +85,6 @@ public class enemyAI : MonoBehaviour, IDamage
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
-            animator.SetBool("CanAttack", playerInRange);
         }
     }
 
@@ -77,27 +93,31 @@ public class enemyAI : MonoBehaviour, IDamage
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            animator.SetBool("CanAttack", playerInRange);
         }
     }
 
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, bool headshot = false)
     {
         HP -= amount;
 
         //StartCoroutine(DamageTakenFlash());
-        PlayHitMarkerSound(); 
+        PlayHitMarkerSound();
+
+        if (headshot && !isDead)
+        {
+            audioPlayer.PlayOneShot(audioHeadShot);
+        }
 
         if (HP <= 0 && !isDead)
         {
-            Die();
+            OnDeath();
         }
     }
 
-    public void TakeDamage(float amount, Vector3 loc, Quaternion rot)
+    public void TakeDamage(float amount, Vector3 loc, Quaternion rot, bool headshot = false)
     {
-        TakeDamage(amount);
+        TakeDamage(amount, headshot);
         particle.transform.SetPositionAndRotation(loc, rot);
         particle.Play();
     }
@@ -109,18 +129,27 @@ public class enemyAI : MonoBehaviour, IDamage
         model.material.color = colorOrig;
     }
 
-    void Die()
+    void PlayHitMarkerSound()
+    {
+        if (audioPlayer != null && audioHitMarker != null)
+        {
+            audioPlayer.PlayOneShot(audioHitMarker);
+        }
+    }
+
+    void OnDeath()
     {
         gameManager.instance.UpdateGameGoal();
         animator.Play("Z_FallingBack");
         isDead = true;
         agent.isStopped = true;
 
-        foreach (damage d in GetComponentsInChildren<damage>())
-            Destroy(d);
-
         Destroy(GetComponentInChildren<CapsuleCollider>());
-        Destroy(gameObject, 3.0f);
+    }
+
+    void AfterDeath()
+    {
+        Destroy(gameObject, 0.5f);
     }
 
     void FaceTarget()
@@ -129,20 +158,30 @@ public class enemyAI : MonoBehaviour, IDamage
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
     }
 
-    IEnumerator Shoot()
+    IEnumerator DoAttack()
     {
-        isShooting = true;
-        
-        //Instantiate(bullet, shootPos.position, transform.rotation);
-        yield return new WaitForSeconds(shootRate);
-        isShooting = false;
+        canAttack = false;
+        animator.Play("Z_Attack");
+        yield return new WaitForSeconds(attackRate);
+        canAttack = true;
     }
 
-    void PlayHitMarkerSound()
+    IEnumerator Shoot()
     {
-        if(audioPlayer != null && audioHitMarker != null)
-        {
-            audioPlayer.PlayOneShot(audioHitMarker); 
-        }    
+        isAttacking = true;
+        animator.Play("Z_Attack");
+        //Instantiate(bullet, shootPos.position, transform.rotation);
+        yield return new WaitForSeconds(attackRate);
+        isAttacking = false;
+    }
+
+    void RightAttackEnable()
+    {
+        rightHandPos.SetActive(true);
+    }
+
+    void LeftAttackEndable()
+    {
+        leftHandPos.SetActive(true);
     }
 }
