@@ -9,16 +9,17 @@ public class shopManager : MonoBehaviour
     [SerializeField] GameObject shopPanel;
     [SerializeField] GameObject weaponPanel;
     [SerializeField] GameObject[] weapons;
+    [SerializeField] GameObject[] weaponsShop;
 
     //Layout variables for each of the weapon panels
-    private int startX = -630;
-    private int startY = 210;
-    
-    private int width = 340;
-    private int height = 200;
+    [SerializeField] int startX = -630;
+    [SerializeField] int startY = 210;
 
-    private int col = 4;
-    private int padding = 30;
+    [SerializeField] int width = 340;
+    [SerializeField] int height = 200;
+
+    [SerializeField] int col = 4;
+    [SerializeField] int padding = 30;
 
     void Start()
     {
@@ -47,12 +48,13 @@ public class shopManager : MonoBehaviour
             if (panelInfo != null)
             {
                 //Create a new shopWeapon
-                tempWeapon = Instantiate(weapons[i]);
+                tempWeapon = Instantiate(weaponsShop[i]);
                 tempWeapon.transform.SetParent(tempPanel.transform, true);
-                tempWeapon.transform.localPosition = weapons[i].transform.localPosition;
-                tempWeapon.transform.localScale = weapons[i].transform.localScale;
+                tempWeapon.transform.localPosition = weaponsShop[i].transform.localPosition;
+                tempWeapon.transform.localScale = weaponsShop[i].transform.localScale;
 
                 //Set the elements values
+                tempWeapon = Instantiate(weapons[i]);
                 weaponInfo = tempWeapon.GetComponent<weaponHandler>();
                 if (weaponInfo != null)
                 {
