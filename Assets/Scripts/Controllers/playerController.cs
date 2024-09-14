@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         game = gameManager.instance;
         shootRate = weapon.GetFireRate();
-        game.GetPlayerInterface().UpdatePlayerAmmo(weapon.GetCurrentMagazine().ToString(), weapon.GetMagazineSize().ToString());
+        weapon.UpdateUI();
         healthCurrent = healthMax;
         game.GetPlayerInterface().UpdatePlayerHealth(healthCurrent, healthMax);
     }
@@ -141,7 +141,6 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         isShooting = true;
         weapon.Fire();
-        game.GetPlayerInterface().UpdatePlayerAmmo(weapon.GetCurrentMagazine().ToString(), weapon.GetMagazineSize().ToString());
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
     }

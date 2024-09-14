@@ -26,7 +26,7 @@ public class shopManager : MonoBehaviour
         GameObject tempPanel;
         GameObject tempWeapon;
         shopWeaponPanel panelInfo;
-        shopWeaponInfo weaponInfo;
+        weaponHandler weaponInfo;
 
         int offsetX;
         int offsetY;
@@ -53,7 +53,7 @@ public class shopManager : MonoBehaviour
                 tempWeapon.transform.localScale = weapons[i].transform.localScale;
 
                 //Set the elements values
-                weaponInfo = tempWeapon.GetComponent<shopWeaponInfo>();
+                weaponInfo = tempWeapon.GetComponent<weaponHandler>();
                 if (weaponInfo != null)
                 {
                     panelInfo.SetWeaponName(weaponInfo.GetWeaponName());

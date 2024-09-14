@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class weaponHandler : MonoBehaviour
 {
+    [Header("Weapon Info")]
+    [SerializeField] string weaponName;
+    [SerializeField] int weaponCost;
+
     [Header("Weapon Components")]
     [SerializeField] Transform firePos;
     [SerializeField] GameObject bullet;
@@ -16,23 +20,27 @@ public class weaponHandler : MonoBehaviour
     [Header("Weapon Stats")]
     [SerializeField] int damage;
     [SerializeField] float fireRate = 0.1f;
-    [SerializeField] int magazineSize = 35;
     [SerializeField] float reloadRate = 3.0f;
+    [SerializeField] int magazineSize = 35;
+    [SerializeField] int ammoMax;
+
+    public string GetWeaponName() { return weaponName; }
+    public int GetWeaponCost() {  return weaponCost; }
 
     public float GetFireRate() { return fireRate; }
     public int GetCurrentMagazine() { return magazineCurrent; }
     public int GetMagazineSize() { return magazineSize; }
 
-    int magazineCurrent = 0;
+    int magazineCurrent;
+    int ammoCurrent;
 
     bool isReloading;
     bool isEmptyMagazineSound;
 
-    [SerializeField] GameObject hitCol;
-
     void Start()
     {
         magazineCurrent = magazineSize;
+        ammoCurrent = ammoMax;
     }
 
     public void Fire()
@@ -46,7 +54,6 @@ public class weaponHandler : MonoBehaviour
             return;
         }
 
-
         Vector3 ScreenCentreCoordinates = new Vector3(0.5f, 0.5f, 0f);
         Ray ray = Camera.main.ViewportPointToRay(ScreenCentreCoordinates);
 
@@ -57,7 +64,7 @@ public class weaponHandler : MonoBehaviour
             if (dmg != null)
             {
                 if(hit.collider.CompareTag("Head"))
-                    dmg.TakeDamage(damage * 3, hit.point + hit.normal * 0.001f, Quaternion.FromToRotation(Vector3.forward, hit.normal), true);
+                    dmg.TakeDamage(damage * 2, hit.point + hit.normal * 0.001f, Quaternion.FromToRotation(Vector3.forward, hit.normal), true);
                 else
                     dmg.TakeDamage(damage, hit.point + hit.normal * 0.001f, Quaternion.FromToRotation(Vector3.forward, hit.normal));
             }
@@ -73,6 +80,8 @@ public class weaponHandler : MonoBehaviour
         audioSystem.PlayOneShot(audioSystem.clip);
 
         magazineCurrent -= 1;
+
+        UpdateUI();
     }
 
     public bool HasAmmo()
@@ -91,6 +100,14 @@ public class weaponHandler : MonoBehaviour
             StartCoroutine(Reload());
     }
 
+    public void Resupply(int amount = 0)
+    {
+        if (amount == 0)
+            ammoCurrent = ammoMax;
+        else
+            ammoCurrent = Mathf.Min(ammoCurrent + amount, ammoMax);
+    }
+
     IEnumerator Reload()
     {
         isReloading = true;
@@ -100,8 +117,18 @@ public class weaponHandler : MonoBehaviour
 
         isReloading = false;
 
-        magazineCurrent = magazineSize;
-        gameManager.instance.GetPlayerInterface().UpdatePlayerAmmo(magazineCurrent.ToString(), magazineSize.ToString());
+        if ((magazineSize - magazineCurrent) <= ammoCurrent) 
+        {
+            ammoCurrent -= (magazineSize - magazineCurrent);
+            magazineCurrent = magazineSize;
+        }
+        else
+        {
+            magazineCurrent += ammoCurrent;
+            ammoCurrent = 0;
+        }
+
+        UpdateUI();
     }
 
     IEnumerator EmptyMagazine()
@@ -111,5 +138,10 @@ public class weaponHandler : MonoBehaviour
         yield return new WaitForSeconds(audioEmpty.length);
 
         isEmptyMagazineSound = false;
+    }
+
+    public void UpdateUI()
+    {
+        gameManager.instance.GetPlayerInterface().UpdatePlayerAmmo(magazineCurrent.ToString(), ammoCurrent.ToString());
     }
 }
