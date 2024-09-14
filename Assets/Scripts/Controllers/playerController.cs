@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,6 +9,7 @@ public class PlayerController : MonoBehaviour, IDamage
     //Player logic variables
     [Header("Player Controller")]
     [SerializeField] CharacterController controller;
+    [SerializeField] Transform gunPos;
     [SerializeField] LayerMask ignoreMask;
 
     [Header("Player Stats")]
@@ -23,7 +25,9 @@ public class PlayerController : MonoBehaviour, IDamage
 
     //Player Shoot
     [Header("Player Weapon")]
-    [SerializeField] weaponHandler weapon;
+    [SerializeField] weaponHandler weaponEquipped;
+    [SerializeField] weaponHandler weapon1;
+    [SerializeField] weaponHandler weapon2;
     [SerializeField] int shootDamage;
     [SerializeField] float shootRate;
     [SerializeField] float shootDistance;
@@ -42,9 +46,13 @@ public class PlayerController : MonoBehaviour, IDamage
     int jumpCount;
 
     bool isSprinting;
-    
+
+    bool isSwapWeapon;
     bool isShooting;
     public bool IsShooting() { return isShooting; }
+    public bool CanSwapWeapon() { 
+        return !isShooting && !isSwapWeapon && !weaponEquipped.IsReloading() && weapon2 != null;
+    }
 
     bool isWalkAudio;
 
@@ -54,8 +62,12 @@ public class PlayerController : MonoBehaviour, IDamage
     void Start()
     {
         game = gameManager.instance;
-        shootRate = weapon.GetFireRate();
-        weapon.UpdateUI();
+        
+        //Setup weapons
+        weaponEquipped = weapon1;
+        weaponEquipped.UpdateUI();
+        shootRate = weaponEquipped.GetFireRate();
+
         healthCurrent = healthMax;
         game.GetPlayerInterface().UpdatePlayerHealth(healthCurrent, healthMax);
     }
@@ -72,9 +84,6 @@ public class PlayerController : MonoBehaviour, IDamage
 
     void Movement()
     {
-        //moveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")); --World Transform
-        //transform.position += moveDir * speed * Time.deltaTime; --No Collision
-
         //Reset jump variables
         if (controller.isGrounded)
         {
@@ -106,7 +115,7 @@ public class PlayerController : MonoBehaviour, IDamage
             StartCoroutine(WalkAudio());
         }
 
-        if (weapon.IsAutomatic())
+        if (weaponEquipped.IsAutomatic())
         {
             if (Input.GetButton("Shoot") && !isShooting)
             {
@@ -121,10 +130,14 @@ public class PlayerController : MonoBehaviour, IDamage
             }
         }
 
+        if(Input.GetAxis("Mouse ScrollWheel") != 0 && CanSwapWeapon())
+        {
+            StartCoroutine(SwapWeapon());
+        }
 
         if (Input.GetButtonDown("Reload"))
         {
-            weapon.DoReload();
+            weaponEquipped.DoReload();
         }
     }
 
@@ -148,12 +161,67 @@ public class PlayerController : MonoBehaviour, IDamage
         audioPlayer.Play();
     }
 
+    public void EquipWeapon(weaponHandler newWeapon, int slot)
+    {
+        switch(slot)
+        {
+            case 1:
+                if(weaponEquipped == weapon1)
+                {
+                    weaponEquipped = null;
+                }
+                Destroy(weapon1);
+                weapon1 = Instantiate(newWeapon);
+                weapon1.gameObject.transform.SetParent(gunPos);
+                if(weaponEquipped == null)
+                    weaponEquipped = weapon1;
+                break;
+            case 2:
+                if (weapon2 != null)
+                {
+                    if (weaponEquipped == weapon2)
+                    {
+                        weaponEquipped = null;
+                    }
+
+                    Destroy(weapon2);
+                }
+                weapon2 = Instantiate(newWeapon);
+                weapon2.gameObject.transform.SetParent(gunPos);
+                if (weaponEquipped == null)
+                    weaponEquipped = weapon2;
+                break;
+        }
+    }
+
     IEnumerator Shoot()
     {
         isShooting = true;
-        weapon.Fire();
+        weaponEquipped.Fire();
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
+    }
+
+    IEnumerator SwapWeapon()
+    {
+        isSwapWeapon = true;
+
+        if (weaponEquipped == weapon1)
+        {
+            weapon2.gameObject.SetActive(true);
+            weaponEquipped = weapon2;
+            weapon1.gameObject.SetActive(false);
+        }
+        else
+        {
+            weapon1.gameObject.SetActive(true);
+            weaponEquipped = weapon1;
+            weapon2.gameObject.SetActive(false);
+        }
+        weaponEquipped.UpdateUI();
+
+        yield return new WaitForSeconds(1.0f);
+        isSwapWeapon = false;
     }
 
     IEnumerator WalkAudio()
@@ -201,6 +269,6 @@ public class PlayerController : MonoBehaviour, IDamage
 
     public weaponHandler GetWeapon()
     {
-        return weapon;
+        return weaponEquipped;
     }
 }
