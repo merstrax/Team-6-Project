@@ -106,12 +106,23 @@ public class PlayerController : MonoBehaviour, IDamage
             StartCoroutine(WalkAudio());
         }
 
-        if (Input.GetButton("Shoot") && !isShooting)
+        if (weapon.IsAutomatic())
         {
-            StartCoroutine(Shoot());
+            if (Input.GetButton("Shoot") && !isShooting)
+            {
+                StartCoroutine(Shoot());
+            }
+        }
+        else
+        {
+            if (Input.GetButtonDown("Shoot") && !isShooting)
+            {
+                StartCoroutine(Shoot());
+            }
         }
 
-        if(Input.GetButtonDown("Reload"))
+
+        if (Input.GetButtonDown("Reload"))
         {
             weapon.DoReload();
         }

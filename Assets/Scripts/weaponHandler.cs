@@ -23,6 +23,7 @@ public class weaponHandler : MonoBehaviour
     [SerializeField] float reloadRate = 3.0f;
     [SerializeField] int magazineSize = 35;
     [SerializeField] int ammoMax;
+    [SerializeField] bool isAutomatic = false;
 
     public string GetWeaponName() { return weaponName; }
     public int GetWeaponCost() {  return weaponCost; }
@@ -30,6 +31,8 @@ public class weaponHandler : MonoBehaviour
     public float GetFireRate() { return fireRate; }
     public int GetCurrentMagazine() { return magazineCurrent; }
     public int GetMagazineSize() { return magazineSize; }
+
+    public bool IsAutomatic() { return isAutomatic; }
 
     int magazineCurrent;
     int ammoCurrent;
