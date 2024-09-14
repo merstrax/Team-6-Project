@@ -2343,6 +2343,8 @@ MonoBehaviour:
   model: {fileID: 0}
   particle: {fileID: 6952188688589522834}
   healthText: {fileID: 6385874304365882663}
+  bodyCollider: {fileID: 6097311441557555526}
+  headCollider: {fileID: 0}
   agent: {fileID: 5842010390625510792}
   headPos: {fileID: 498156131341751278}
   faceTargetSpeed: 15

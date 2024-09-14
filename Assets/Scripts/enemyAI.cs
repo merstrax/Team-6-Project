@@ -11,6 +11,8 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] Renderer model;
     [SerializeField] ParticleSystem particle;
     [SerializeField] TextMeshPro healthText;
+    [SerializeField] CapsuleCollider bodyCollider;
+    [SerializeField] CapsuleCollider headCollider;
 
     [Header("AI Nav")]
     [SerializeField] NavMeshAgent agent;
@@ -154,7 +156,8 @@ public class enemyAI : MonoBehaviour, IDamage
         leftHandPos.SetActive(false);
 
         Destroy(healthText);
-        Destroy(GetComponentInChildren<CapsuleCollider>());
+        Destroy(headCollider);
+        Destroy(bodyCollider);
     }
 
     void AfterDeath()

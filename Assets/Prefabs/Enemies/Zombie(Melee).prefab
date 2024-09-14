@@ -2286,7 +2286,6 @@ GameObject:
   - component: {fileID: 5842010390625510792}
   - component: {fileID: 8015330662561087846}
   - component: {fileID: 8254101265250900317}
-  - component: {fileID: 6097311441557555526}
   m_Layer: 7
   m_Name: Zombie(Melee)
   m_TagString: Untagged
@@ -2342,6 +2341,8 @@ MonoBehaviour:
   model: {fileID: 0}
   particle: {fileID: 6952188688589522834}
   healthText: {fileID: 8721686218907057639}
+  bodyCollider: {fileID: 6499098553108134767}
+  headCollider: {fileID: 5607341779372237568}
   agent: {fileID: 5842010390625510792}
   headPos: {fileID: 498156131341751278}
   faceTargetSpeed: 15
@@ -2516,29 +2517,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!136 &6097311441557555526
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7291488143580912723}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.33
-  m_Height: 1.33
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1 &7400362540378826897
 GameObject:
   m_ObjectHideFlags: 0
