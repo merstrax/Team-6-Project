@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,6 +10,7 @@ public class enemyAI : MonoBehaviour, IDamage
     [SerializeField] Animator animator;
     [SerializeField] Renderer model;
     [SerializeField] ParticleSystem particle;
+    [SerializeField] TextMeshPro healthText;
 
     [Header("AI Nav")]
     [SerializeField] NavMeshAgent agent;
@@ -42,7 +44,10 @@ public class enemyAI : MonoBehaviour, IDamage
     // Start is called before the first frame update
     void Start()
     {
-        //colorOrig = model.material.color;
+        float baseHP = HP;
+        HP += ((gameManager.instance.GetCurrentWave() - 1) * (baseHP * 0.2f));
+        HP = Mathf.Min(HP, baseHP * 10);
+        UpdateHealthText();
     }
 
     // Update is called once per frame
@@ -101,6 +106,7 @@ public class enemyAI : MonoBehaviour, IDamage
     {
         HP -= amount;
 
+        UpdateHealthText();
         //StartCoroutine(DamageTakenFlash());
         PlayHitMarkerSound();
 
@@ -144,6 +150,10 @@ public class enemyAI : MonoBehaviour, IDamage
         isDead = true;
         agent.isStopped = true;
 
+        rightHandPos.SetActive(false);
+        leftHandPos.SetActive(false);
+
+        Destroy(healthText);
         Destroy(GetComponentInChildren<CapsuleCollider>());
     }
 
@@ -183,5 +193,10 @@ public class enemyAI : MonoBehaviour, IDamage
     void LeftAttackEndable()
     {
         leftHandPos.SetActive(true);
+    }
+
+    void UpdateHealthText()
+    {
+        healthText.text = HP.ToString();
     }
 }

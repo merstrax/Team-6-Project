@@ -41,7 +41,7 @@ public class gameManager : MonoBehaviour
 
     public enemySpawner[] enemySpawners;
 
-    int currentWave = 1;
+    [SerializeField] int currentWave = 1;
     public int GetCurrentWave() { return currentWave; }
 
     int enemyCount = 0; //How many enemies on the map
@@ -73,6 +73,7 @@ public class gameManager : MonoBehaviour
         playerScript = player.GetComponent<PlayerController>();
 
         CalclulateWaveAmount();
+        CalculateMoneyAmount();
 
         enemySpawners = GameObject.FindObjectsByType<enemySpawner>(FindObjectsSortMode.None);
         if (enemySpawners.Length == 0) canSpawn = false;
@@ -174,10 +175,16 @@ public class gameManager : MonoBehaviour
     //Calculate how many enemies for current wave
     void CalclulateWaveAmount()
     {
-        float _waveModifier = enemyWaveSpawnCurve / Mathf.Log10(currentWave + 1); //Log modifier for enemy spawn count
-        float _waveMultiplier = Mathf.Pow(2, _waveModifier * ((currentWave - 1) / 2)); //Using modifier to create spawn count multiplier
+        if(currentWave >= 75)
+        {
+            enemyRemaining = 350 + (currentWave - 75) * 10;
+            return;
+        }
+        float _waveModifier = enemyWaveSpawnCurve / Mathf.Log10((float)currentWave + 1); //Log modifier for enemy spawn count
+        float _waveMultiplier = Mathf.Pow(2, _waveModifier * (((float)currentWave - 1) / 2)); //Using modifier to create spawn count multiplier
 
         float _enemyRemaining = enemyBaseSpawnCount * _waveMultiplier;
+
 
         enemyRemaining = (int)_enemyRemaining;
     }

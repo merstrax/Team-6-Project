@@ -255,7 +255,7 @@ MonoBehaviour:
   audioEmpty: {fileID: 8300000, guid: 9d280e14fb17e8c43af9b5d87a41288a, type: 3}
   damage: 35
   fireRate: 0.1
-  reloadRate: 1.2
+  reloadRate: 0.8
   magazineSize: 12
   ammoMax: 120
   isAutomatic: 0

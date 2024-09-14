@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour, IDamage
     int jumpCount;
 
     bool isSprinting;
+    public bool IsSprinting() {  return isSprinting; }
 
     bool isSwapWeapon;
     bool isShooting;
@@ -117,14 +118,14 @@ public class PlayerController : MonoBehaviour, IDamage
 
         if (weaponEquipped.IsAutomatic())
         {
-            if (Input.GetButton("Shoot") && !isShooting)
+            if (Input.GetButton("Shoot") && !isShooting && !isSprinting)
             {
                 StartCoroutine(Shoot());
             }
         }
         else
         {
-            if (Input.GetButtonDown("Shoot") && !isShooting)
+            if (Input.GetButtonDown("Shoot") && !isShooting && !isSprinting)
             {
                 StartCoroutine(Shoot());
             }
@@ -218,9 +219,11 @@ public class PlayerController : MonoBehaviour, IDamage
             weaponEquipped = weapon1;
             weapon2.gameObject.SetActive(false);
         }
-        weaponEquipped.UpdateUI();
+        
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
+
+        weaponEquipped.UpdateUI();
         isSwapWeapon = false;
     }
 

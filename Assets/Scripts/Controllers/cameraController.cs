@@ -44,7 +44,7 @@ public class cameraController : MonoBehaviour
 
         sensitivity = senseNormal;
 
-        if (Input.GetButton("Aim") && !gameManager.instance.playerScript.GetWeapon().IsReloading())
+        if (Input.GetButton("Aim") && !gameManager.instance.playerScript.GetWeapon().IsReloading() && !gameManager.instance.playerScript.IsSprinting())
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, fovADS, adsSpeed * Time.deltaTime);
             weaponPos.localPosition = Vector3.Lerp(weaponPos.localPosition, weaponPosADS.localPosition, adsSpeed * Time.deltaTime);

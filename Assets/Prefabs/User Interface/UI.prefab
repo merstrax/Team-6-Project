@@ -857,7 +857,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -255, y: -30}
+  m_AnchoredPosition: {x: -255, y: -50}
   m_SizeDelta: {x: 450, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8603377657072693836
@@ -991,7 +991,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 230, y: -85}
+  m_AnchoredPosition: {x: 230, y: -100}
   m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8127329424116001636
@@ -1424,16 +1424,15 @@ MonoBehaviour:
   shopPanel: {fileID: 3059300744083230270}
   weaponPanel: {fileID: 8450345162001829071, guid: 8f963f6f99ce6d74abdf6b9268b1331c, type: 3}
   weapons:
-  - {fileID: 1487774384131766, guid: a4d9ee5d23e85e1468050f75d35b5ebe, type: 3}
-  - {fileID: 1236257789494122, guid: 83365245ed20edb49a12285b1c6f09c7, type: 3}
-  - {fileID: 1156375666866002, guid: ef87b299d3e59234183eb41b0ac34f8a, type: 3}
-  - {fileID: 1117582899397640, guid: 5984c4b4d529b6d43b54ef7206677baf, type: 3}
-  - {fileID: 1829597508155286, guid: bb8faefc46de5f847acbf00fd5452822, type: 3}
-  - {fileID: 1261748888023320, guid: f331329d360bd64498cdbbcab25477ca, type: 3}
-  - {fileID: 1694449805434718, guid: f512ab74d8432da49ae6574d8a98d93d, type: 3}
-  - {fileID: 1698056052845220, guid: 2acdef4fd180d484b9c598fba623c894, type: 3}
-  - {fileID: 1411512464560164, guid: ad9f2ce1f2af9604fa7fddaaec3336c0, type: 3}
-  - {fileID: 1095254202041702, guid: 2c5c3503412d00748902a7e2db1c7d4a, type: 3}
+  - {fileID: 770809982919147016, guid: 3a1b02d561f86694ea8b0e521d629259, type: 3}
+  - {fileID: 1236257789494122, guid: 6af73634c67921747966602c8c3d4f89, type: 3}
+  - {fileID: 1156375666866002, guid: 740b2758274c85b41903f4d9c14ada08, type: 3}
+  - {fileID: 1117582899397640, guid: 75d6f92d4503bd44fb3c48f8c2e9676f, type: 3}
+  - {fileID: 1829597508155286, guid: 179ba8307e1975b4894c1fed5db08686, type: 3}
+  - {fileID: 1261748888023320, guid: 73fd4d0937562ae48b8e5f8b8379a145, type: 3}
+  - {fileID: 1694449805434718, guid: d5a7a61dca74f0047bce0335392a7af4, type: 3}
+  - {fileID: 1411512464560164, guid: 9ff47a8984c5d6947948477d9e0d7118, type: 3}
+  - {fileID: 1095254202041702, guid: db86deb860cdf34498478a0e263318c0, type: 3}
 --- !u!1 &3227589869270385162
 GameObject:
   m_ObjectHideFlags: 0
@@ -2410,12 +2409,13 @@ MonoBehaviour:
   playerScript: {fileID: 0}
   enemyMaxSpawn: 30
   enemySpawnTimer: 1.5
-  enemyBaseSpawnCount: 10
-  enemyWaveSpawnCurve: 0.2
+  enemyBaseSpawnCount: 6
+  enemyWaveSpawnCurve: 0.3
   enemyMoneyBase: 100
   enemyMoneyCurve: 0.1
   buyPhaseTimer: 5
   enemySpawners: []
+  currentWave: 1
   isPaused: 0
 --- !u!1 &5601539953532819931
 GameObject:
@@ -2634,7 +2634,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 20, y: -34}
+  m_AnchoredPosition: {x: 20, y: -50}
   m_SizeDelta: {x: 526, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5414173324951424583
@@ -3187,7 +3187,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 230, y: -30}
+  m_AnchoredPosition: {x: 230, y: -50}
   m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8848248518177580374
@@ -3321,7 +3321,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 230, y: -140}
+  m_AnchoredPosition: {x: 230, y: -150}
   m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8274803054378307753
