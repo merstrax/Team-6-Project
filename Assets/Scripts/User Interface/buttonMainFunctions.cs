@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class buttonMainFunctions : MonoBehaviour
 {
+    [SerializeField] TMP_InputField senseField;
+
     public void resume()
     {
         gameManager.instance.StateUnpause();
@@ -29,6 +33,11 @@ public class buttonMainFunctions : MonoBehaviour
     public void startgame()
     {
         SceneManager.LoadScene("Game Scene");
+    }
+
+    public void changeSensitivity()
+    {
+        Camera.main.GetComponent<cameraController>().ChangeSensitivity(int.Parse(senseField.text));
     }
 
 }

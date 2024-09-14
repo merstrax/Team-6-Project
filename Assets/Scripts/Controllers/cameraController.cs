@@ -78,4 +78,10 @@ public class cameraController : MonoBehaviour
         //Rotate the player on the y-axis
         transform.parent.Rotate(Vector3.up * mouseX); 
     }
+
+    public void ChangeSensitivity(int sense)
+    {
+        senseNormal = sense;
+        senseADS = sense;
+    }
 }
