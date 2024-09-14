@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
     [Header("Player Stats")]
     [SerializeField] int healthMax;
+    [SerializeField] float regenDelay;
 
     //Player Movement
     [Header("Player Movement")]
@@ -42,10 +43,14 @@ public class PlayerController : MonoBehaviour, IDamage
     Vector3 playerVel;
 
     int healthCurrent;
+    float lastHitTime;
 
     int jumpCount;
 
     bool isSprinting;
+    bool isRegenerating;
+
+
     public bool IsSprinting() {  return isSprinting; }
 
     bool isSwapWeapon;
@@ -80,6 +85,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
         Movement();
         Sprint();
+        //RegeneratingHealth(); 
     }
 
 
@@ -254,6 +260,58 @@ public class PlayerController : MonoBehaviour, IDamage
         if(healthCurrent <= 0)
         {
             gameManager.instance.YouLose();
+        }
+
+        // stops regen
+        StopRegeneratingHealth(); 
+
+        // updates last hit time
+        lastHitTime = Time.time;
+
+        //start health regen
+        StartCoroutine(HealthRegen()); 
+
+    }
+
+    IEnumerator HealthRegen()
+    {
+        isRegenerating = true;
+
+        while (Time.time - lastHitTime < regenDelay)
+        {
+            // wait for the regen delay
+            yield return new WaitForSeconds(regenDelay);
+        }
+       
+        // Gradual regeneration over time
+        while (healthCurrent < healthMax)
+        {
+            // Increase health gradually
+            healthCurrent = Mathf.Min(healthCurrent + 1, healthMax); 
+            game.GetPlayerInterface().UpdatePlayerHealth(healthCurrent, healthMax);
+
+            // Adjust the wait time for regeneration speed
+            yield return new WaitForSeconds(0.1f); 
+        }
+
+        isRegenerating = false;
+    }
+
+    //void RegeneratingHealth()
+    //{
+    //    if(Time.time - lastHitTime >= regenDelay && !isRegenerating && healthCurrent < healthMax)
+    //    {
+    //        // start health regen
+    //        StartCoroutine(HealthRegen()); 
+    //    }
+    //}
+
+    void StopRegeneratingHealth()
+    {
+        if (isRegenerating)
+        {
+            StopCoroutine(HealthRegen()); 
+            isRegenerating = false; 
         }
     }
 
