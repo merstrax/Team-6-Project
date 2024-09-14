@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4271122294997020}
   - component: {fileID: 33969966666000196}
   - component: {fileID: 23973502960805256}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: -7884027525878923113}
   - component: {fileID: 33990794486070434}
   - component: {fileID: 23025737108156134}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: M249
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,10 +110,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1261748888023320}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 200, y: 200, z: 200}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0.06, y: -0.2, z: 0.65}
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4195140482711694986}
   - {fileID: 7975146751821299193}
@@ -122,7 +122,7 @@ Transform:
   - {fileID: 4427154760744368}
   - {fileID: 4271122294997020}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &-7884027525878923113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,18 +136,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: M249
-  weaponCost: 3500
+  weaponCost: 2800
   firePos: {fileID: 4195140482711694986}
   bullet: {fileID: 1607555531811501567, guid: e45104f42dedb064b9d800ef28da439f, type: 3}
   partSystem: {fileID: 4307153268543978655}
   audioSystem: {fileID: 1961741281397078204}
   audioReload: {fileID: 8300000, guid: f84c03538ec10a64488b5186293df642, type: 3}
   audioEmpty: {fileID: 8300000, guid: 9d280e14fb17e8c43af9b5d87a41288a, type: 3}
-  damage: 0
-  fireRate: 0.1
-  reloadRate: 3
-  magazineSize: 35
-  ammoMax: 0
+  damage: 120
+  fireRate: 0.08
+  reloadRate: 5
+  magazineSize: 100
+  ammoMax: 300
+  isAutomatic: 1
+  canPenetrate: 0
 --- !u!33 &33990794486070434
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -209,7 +211,7 @@ GameObject:
   - component: {fileID: 4211039482249024}
   - component: {fileID: 33543448834326324}
   - component: {fileID: 23601845274669596}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Magazin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,7 +294,7 @@ GameObject:
   - component: {fileID: 4220910401126438}
   - component: {fileID: 33784703545727648}
   - component: {fileID: 23948615344437080}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Bolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -375,7 +377,7 @@ GameObject:
   - component: {fileID: 4427154760744368}
   - component: {fileID: 33324123896295442}
   - component: {fileID: 23104848348981342}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Slide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -602,7 +604,7 @@ Transform:
   m_GameObject: {fileID: 6206903761359805934}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -0.007114, y: 0.0026925, z: -0.001072501}
+  m_LocalPosition: {x: -0.007114, y: 0.059, z: -0.429}
   m_LocalScale: {x: 0.0002999999, y: 0.00029999999, z: 0.0002999999}
   m_ConstrainProportionsScale: 0
   m_Children: []

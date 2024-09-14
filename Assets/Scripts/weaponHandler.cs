@@ -24,6 +24,7 @@ public class weaponHandler : MonoBehaviour
     [SerializeField] int magazineSize = 35;
     [SerializeField] int ammoMax;
     [SerializeField] bool isAutomatic = false;
+    [SerializeField] bool canPenetrate = false;
 
     public string GetWeaponName() { return weaponName; }
     public int GetWeaponCost() {  return weaponCost; }
@@ -40,10 +41,13 @@ public class weaponHandler : MonoBehaviour
     bool isReloading;
     bool isEmptyMagazineSound;
 
+    AudioClip audioShot;
+
     void Start()
     {
         magazineCurrent = magazineSize;
         ammoCurrent = ammoMax;
+        audioShot = audioSystem.clip;
     }
 
     public void Fire()
@@ -57,8 +61,8 @@ public class weaponHandler : MonoBehaviour
             return;
         }
 
-        Vector3 ScreenCentreCoordinates = new Vector3(0.5f, 0.5f, 0f);
-        Ray ray = Camera.main.ViewportPointToRay(ScreenCentreCoordinates);
+        Vector3 screenCenter = new Vector3(0.5f, 0.5f, 0f);
+        Ray ray = Camera.main.ViewportPointToRay(screenCenter);
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
@@ -99,7 +103,7 @@ public class weaponHandler : MonoBehaviour
 
     public void DoReload()
     {
-        if (!isReloading)
+        if (!isReloading && magazineCurrent != magazineSize && ammoCurrent > 0)
             StartCoroutine(Reload());
     }
 
@@ -114,10 +118,16 @@ public class weaponHandler : MonoBehaviour
     IEnumerator Reload()
     {
         isReloading = true;
-        audioSystem.PlayOneShot(audioReload);
+        audioSystem.clip = audioReload;
+        audioSystem.loop = true;
+        audioSystem.Play();
         
-        yield return new WaitForSeconds(audioReload.length * 1.2f);
+        yield return new WaitForSeconds(reloadRate);
 
+        audioSystem.Stop();
+        audioSystem.clip = audioShot;
+        audioSystem.loop = false;
+        
         isReloading = false;
 
         if ((magazineSize - magazineCurrent) <= ammoCurrent) 

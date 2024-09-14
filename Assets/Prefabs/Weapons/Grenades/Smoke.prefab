@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -886984233010893915}
   - component: {fileID: 33144224961271908}
   - component: {fileID: 23170431486699658}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,6 +75,7 @@ MonoBehaviour:
   reloadRate: 3
   magazineSize: 35
   ammoMax: 0
+  isAutomatic: 0
 --- !u!33 &33144224961271908
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -136,7 +137,7 @@ GameObject:
   - component: {fileID: 4845079189501354}
   - component: {fileID: 33835792720177048}
   - component: {fileID: 23787265943347272}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Pin
   m_TagString: Untagged
   m_Icon: {fileID: 0}

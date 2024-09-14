@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1701619134056191843}
   - component: {fileID: 33898383997488124}
   - component: {fileID: 23904141403194016}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Bennelli_M4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,9 +27,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1236257789494122}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 200, y: 200, z: 200}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0.05, z: 0.65}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8680854842329918497}
@@ -37,7 +37,7 @@ Transform:
   - {fileID: 4819501579468060}
   - {fileID: 4996469487512398}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1701619134056191843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,18 +51,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Bennelli M4
-  weaponCost: 4500
+  weaponCost: 1250
   firePos: {fileID: 8680854842329918497}
   bullet: {fileID: 1607555531811501567, guid: e45104f42dedb064b9d800ef28da439f, type: 3}
   partSystem: {fileID: 5256064936497711853}
   audioSystem: {fileID: 1914896576982189574}
   audioReload: {fileID: 8300000, guid: f84c03538ec10a64488b5186293df642, type: 3}
   audioEmpty: {fileID: 8300000, guid: 9d280e14fb17e8c43af9b5d87a41288a, type: 3}
-  damage: 0
-  fireRate: 0.1
-  reloadRate: 3
-  magazineSize: 35
-  ammoMax: 0
+  damage: 550
+  fireRate: 0.5
+  reloadRate: 5
+  magazineSize: 6
+  ammoMax: 60
+  isAutomatic: 0
+  canPenetrate: 0
 --- !u!33 &33898383997488124
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -124,7 +126,7 @@ GameObject:
   - component: {fileID: 4819501579468060}
   - component: {fileID: 33459726747464850}
   - component: {fileID: 23948481808093384}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Pump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +209,7 @@ GameObject:
   - component: {fileID: 4996469487512398}
   - component: {fileID: 33227245936506880}
   - component: {fileID: 23722440624247890}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +436,7 @@ Transform:
   m_GameObject: {fileID: 6950979337136521577}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -0.007114, y: 0.0026925, z: -0.001072501}
+  m_LocalPosition: {x: -0.007114, y: 0.0026925, z: -0.4813}
   m_LocalScale: {x: 0.0002999999, y: 0.00029999999, z: 0.0002999999}
   m_ConstrainProportionsScale: 0
   m_Children: []
