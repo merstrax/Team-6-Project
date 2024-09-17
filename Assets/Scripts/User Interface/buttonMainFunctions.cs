@@ -42,4 +42,15 @@ public class buttonMainFunctions : MonoBehaviour
     {
         SceneManager.LoadScene("Game Scene");
     }
+
+    public void buyitem(shopWeaponPanel weapon)
+    {
+        int weaponSlot = gameManager.instance.playerScript.GetWeaponSlot();
+
+        if (weapon.GetWeaponCost() <= gameManager.instance.GetPlayerMoney())
+        {
+            gameManager.instance.playerScript.EquipWeapon(weapon.GetWeaponHandler(), weaponSlot);
+            gameManager.instance.SpendMoney(weapon.GetWeaponCost());
+        }
+    }
 }

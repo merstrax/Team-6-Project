@@ -25,4 +25,14 @@ public class shopWeaponPanel : MonoBehaviour
     {
         weaponCost.text = amount.ToString();
     }
+
+    public int GetWeaponCost()
+    {
+        return weapon.GetWeaponCost();
+    }
+
+    public weaponHandler GetWeaponHandler()
+    {
+        return weapon;
+    }
 }

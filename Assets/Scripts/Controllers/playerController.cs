@@ -156,14 +156,14 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         if (weaponEquipped.IsAutomatic())
         {
-            if (Input.GetButton("Shoot") && !isShooting && !isSprinting)
+            if (Input.GetButton("Shoot") && !isShooting && !isSprinting && !isSwapWeapon)
             {
                 StartCoroutine(Shoot());
             }
         }
         else
         {
-            if (Input.GetButtonDown("Shoot") && !isShooting && !isSprinting)
+            if (Input.GetButtonDown("Shoot") && !isShooting && !isSprinting && !isSwapWeapon)
             {
                 StartCoroutine(Shoot());
             }
@@ -190,8 +190,24 @@ public class PlayerController : MonoBehaviour, IDamage
         return weaponEquipped;
     }
 
+    public int GetWeaponSlot()
+    {
+        return weaponEquipped == weapon1 ? 1 : 2;
+    }
+
     public void EquipWeapon(weaponHandler newWeapon, int slot)
     {
+        if(weapon2 == null)
+        {
+            weapon2 = Instantiate(newWeapon);
+            weapon2.gameObject.transform.SetParent(gunPos);
+            weapon2.transform.localScale = newWeapon.transform.localScale;
+            weapon2.transform.localRotation = newWeapon.transform.localRotation;
+            weapon2.transform.localPosition = newWeapon.transform.localPosition;
+            weapon2.gameObject.SetActive(false);
+            return;
+        }
+
         switch(slot)
         {
             case 1:
@@ -199,9 +215,12 @@ public class PlayerController : MonoBehaviour, IDamage
                 {
                     weaponEquipped = null;
                 }
-                Destroy(weapon1);
+                Destroy(weapon1.gameObject);
                 weapon1 = Instantiate(newWeapon);
                 weapon1.gameObject.transform.SetParent(gunPos);
+                weapon1.transform.localScale = newWeapon.transform.localScale;
+                weapon1.transform.localRotation = newWeapon.transform.localRotation;
+                weapon1.transform.localPosition = newWeapon.transform.localPosition;
                 if(weaponEquipped == null)
                     weaponEquipped = weapon1;
                 break;
@@ -213,10 +232,13 @@ public class PlayerController : MonoBehaviour, IDamage
                         weaponEquipped = null;
                     }
 
-                    Destroy(weapon2);
+                    Destroy(weapon2.gameObject);
                 }
                 weapon2 = Instantiate(newWeapon);
                 weapon2.gameObject.transform.SetParent(gunPos);
+                weapon2.transform.localScale = newWeapon.transform.localScale;
+                weapon2.transform.localRotation = newWeapon.transform.localRotation;
+                weapon2.transform.localPosition = newWeapon.transform.localPosition;
                 if (weaponEquipped == null)
                     weaponEquipped = weapon2;
                 break;
@@ -247,8 +269,8 @@ public class PlayerController : MonoBehaviour, IDamage
             weaponEquipped = weapon1;
             weapon2.gameObject.SetActive(false);
         }
-        
 
+        weaponEquipped.UpdateUI();
         yield return new WaitForSeconds(0.5f);
 
         weaponEquipped.UpdateUI();

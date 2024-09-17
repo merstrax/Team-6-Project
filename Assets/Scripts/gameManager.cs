@@ -60,6 +60,11 @@ public class gameManager : MonoBehaviour
     int enemyValue = 100;
     int playerMoney = 0;
     public int GetPlayerMoney() { return playerMoney; }
+    public void SpendMoney(int amount)
+    {
+        playerMoney -= amount;
+        playerInterface.UpdatePlayerInterface();
+    }
 
     //Game Phases
     enum GamePhase{BUY, COMBAT};
