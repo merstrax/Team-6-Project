@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] weaponHandler weaponEquipped;
     [SerializeField] weaponHandler weapon1;
     [SerializeField] weaponHandler weapon2;
-    [SerializeField] int shootDamage;
     [SerializeField] float shootRate;
     [SerializeField] float shootDistance;
 
@@ -44,13 +43,11 @@ public class PlayerController : MonoBehaviour, IDamage
 
     int healthCurrent;
     float lastHitTime;
+    bool isRegenerating;
 
     int jumpCount;
 
     bool isSprinting;
-    bool isRegenerating;
-
-
     public bool IsSprinting() {  return isSprinting; }
 
     bool isSwapWeapon;
@@ -83,13 +80,16 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDistance, Color.red);
 
-        Movement();
-        Sprint();
-        //RegeneratingHealth(); 
+        UpdateMovement();
+        UpdateSprint();
+
+        UpdateWeapon();
+
+        if(Time.time - lastHitTime > regenDelay && !isRegenerating)
+            StartCoroutine(HealthRegen());
     }
 
-
-    void Movement()
+    void UpdateMovement()
     {
         //Reset jump variables
         if (controller.isGrounded)
@@ -103,7 +103,6 @@ public class PlayerController : MonoBehaviour, IDamage
                     Input.GetAxis("Vertical") * transform.forward;
 
         controller.Move(speed * Time.deltaTime * moveDir);
-
 
         //Jump logic
         if (Input.GetButtonDown("Jump") && jumpCount < jumpMax)
@@ -121,7 +120,40 @@ public class PlayerController : MonoBehaviour, IDamage
         {
             StartCoroutine(WalkAudio());
         }
+    }
 
+    void UpdateSprint()
+    {
+        if (Input.GetButtonDown("Sprint"))
+        {
+            speed *= sprintMod;
+            isSprinting = true;
+        }
+        else if (Input.GetButtonUp("Sprint"))
+        {
+            speed /= sprintMod;
+            isSprinting = false;
+        }
+
+    }
+
+    IEnumerator WalkAudio()
+    {
+        isWalkAudio = true;
+        int rand = Random.Range(0, audioWalk.Length);
+        audioPlayer.PlayOneShot(audioWalk[rand], 0.5f);
+
+        float audioDelay = 1.5f;
+
+        if (isSprinting)
+            audioDelay = 1.0f;
+
+        yield return new WaitForSeconds(audioWalk[rand].length * audioDelay);
+        isWalkAudio = false;
+    }
+
+    void UpdateWeapon()
+    {
         if (weaponEquipped.IsAutomatic())
         {
             if (Input.GetButton("Shoot") && !isShooting && !isSprinting)
@@ -137,7 +169,7 @@ public class PlayerController : MonoBehaviour, IDamage
             }
         }
 
-        if(Input.GetAxis("Mouse ScrollWheel") != 0 && CanSwapWeapon())
+        if (Input.GetAxis("Mouse ScrollWheel") != 0 && CanSwapWeapon())
         {
             StartCoroutine(SwapWeapon());
         }
@@ -148,24 +180,14 @@ public class PlayerController : MonoBehaviour, IDamage
         }
     }
 
-    void Sprint()
-    {
-        if (Input.GetButtonDown("Sprint"))
-        {
-            speed *= sprintMod;
-            isSprinting = true;
-        }
-        else if (Input.GetButtonUp("Sprint"))
-        {
-            speed /= sprintMod;
-            isSprinting = false;
-        }
-
-    }
-
     public void PlayNewWaveSound()
     {
         audioPlayer.Play();
+    }
+
+    public weaponHandler GetWeapon()
+    {
+        return weaponEquipped;
     }
 
     public void EquipWeapon(weaponHandler newWeapon, int slot)
@@ -233,19 +255,9 @@ public class PlayerController : MonoBehaviour, IDamage
         isSwapWeapon = false;
     }
 
-    IEnumerator WalkAudio()
+    public void TakeDamage(float amount, Vector3 loc, Quaternion rotation, bool headshot = false)
     {
-        isWalkAudio = true;
-        int rand = Random.Range(0, audioWalk.Length);
-        audioPlayer.PlayOneShot(audioWalk[rand], 0.2f);
-
-        float audioDelay = 1.5f;
-
-        if (isSprinting)
-            audioDelay = 1.0f;
-
-        yield return new WaitForSeconds(audioWalk[rand].length * audioDelay);
-        isWalkAudio = false;
+        TakeDamage(amount);
     }
 
     public void TakeDamage(float amount, bool headshot = false)
@@ -263,73 +275,42 @@ public class PlayerController : MonoBehaviour, IDamage
         }
 
         // stops regen
-        StopRegeneratingHealth(); 
+        StopHealthRegen();
+    }
 
-        // updates last hit time
-        lastHitTime = Time.time;
+    IEnumerator DamageFlash()
+    {
+        gameManager.instance.damagePanel.SetActive(true);
+        yield return new WaitForSeconds(0.25f);
 
-        //start health regen
-        StartCoroutine(HealthRegen()); 
-
+        gameManager.instance.damagePanel.SetActive(false);
     }
 
     IEnumerator HealthRegen()
     {
         isRegenerating = true;
-
-        while (Time.time - lastHitTime < regenDelay)
-        {
-            // wait for the regen delay
-            yield return new WaitForSeconds(regenDelay);
-        }
        
         // Gradual regeneration over time
-        while (healthCurrent < healthMax)
-        {
-            // Increase health gradually
-            healthCurrent = Mathf.Min(healthCurrent + 1, healthMax); 
-            game.GetPlayerInterface().UpdatePlayerHealth(healthCurrent, healthMax);
+        // Increase health gradually
+        healthCurrent = Mathf.Min(healthCurrent + 1, healthMax); 
+        game.GetPlayerInterface().UpdatePlayerHealth(healthCurrent, healthMax);
 
-            // Adjust the wait time for regeneration speed
-            yield return new WaitForSeconds(0.1f); 
-        }
+        // Adjust the wait time for regeneration speed
+        yield return new WaitForSeconds(regenDelay / 2);
 
         isRegenerating = false;
     }
 
-    //void RegeneratingHealth()
-    //{
-    //    if(Time.time - lastHitTime >= regenDelay && !isRegenerating && healthCurrent < healthMax)
-    //    {
-    //        // start health regen
-    //        StartCoroutine(HealthRegen()); 
-    //    }
-    //}
-
-    void StopRegeneratingHealth()
+    void StopHealthRegen()
     {
+        // updates last hit time
+        lastHitTime = Time.time;
+
         if (isRegenerating)
         {
-            StopCoroutine(HealthRegen()); 
-            isRegenerating = false; 
+            StopCoroutine(HealthRegen());
         }
-    }
 
-    IEnumerator DamageFlash() 
-    {
-        gameManager.instance.damagePanel.SetActive(true);
-        yield return new WaitForSeconds(0.25f); 
-
-        gameManager.instance.damagePanel.SetActive(false); 
-    }
-
-    public void TakeDamage(float amount, Vector3 loc, Quaternion rotation, bool headshot = false)
-    {
-        TakeDamage(amount);
-    }
-
-    public weaponHandler GetWeapon()
-    {
-        return weaponEquipped;
+        isRegenerating = false;
     }
 }

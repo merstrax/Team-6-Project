@@ -52,7 +52,7 @@ public class weaponHandler : MonoBehaviour
 
     public void Fire()
     {
-        if (isReloading){ return; }
+        if (isReloading || gameManager.instance.isPaused){ return; }
 
         if(!HasAmmo())
         {
