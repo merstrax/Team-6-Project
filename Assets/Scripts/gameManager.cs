@@ -39,10 +39,16 @@ public class gameManager : MonoBehaviour
 
     [SerializeField] float buyPhaseTimer = 30.0f; //Time in seconds
 
-    public enemySpawner[] enemySpawners;
+    [Header("Enemy Variables")]
+    [SerializeField] GameObject[] enemies;
+    [SerializeField] float[] enemyWeight;
+    [SerializeField] int[] enemyMinWave;
 
     [SerializeField] int currentWave = 1;
     public int GetCurrentWave() { return currentWave; }
+
+    List<int> enemySpawnMap = new List<int>();
+    public enemySpawner[] enemySpawners;
 
     int enemyCount = 0; //How many enemies on the map
     int enemyRemaining; //How many enemies until wave is over
@@ -72,7 +78,7 @@ public class gameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<PlayerController>();
 
-        CalclulateWaveAmount();
+        CalculateWaveAmount();
         CalculateMoneyAmount();
 
         enemySpawners = GameObject.FindObjectsByType<enemySpawner>(FindObjectsSortMode.None);
@@ -195,7 +201,7 @@ public class gameManager : MonoBehaviour
     }
 
     //Calculate how many enemies for current wave
-    void CalclulateWaveAmount()
+    void CalculateWaveAmount()
     {
         if(currentWave >= 75)
         {
@@ -209,6 +215,31 @@ public class gameManager : MonoBehaviour
 
 
         enemyRemaining = (int)_enemyRemaining;
+        CalculateEnemyWaveMap();
+    }
+
+    //Generate Enemies for this wave
+    void CalculateEnemyWaveMap()
+    {
+        float totalWeight = 0.0f;
+        for (int i = 0; i < enemyWeight.Length; i++)
+        {
+            if (enemyMinWave[i] > currentWave) { continue; }
+            totalWeight += enemyWeight[i];
+        }
+
+        float amount;
+        enemySpawnMap.Clear();
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (enemyMinWave[i] > currentWave) { continue; }
+            amount = (enemyWeight[i] / totalWeight) * enemyRemaining;
+            for(int n = 0; n < amount; n++)
+            {
+                enemySpawnMap.Add(i);
+            }
+        }
+        enemyRemaining = enemySpawnMap.Count;
     }
 
     void CalculateMoneyAmount()
@@ -229,7 +260,7 @@ public class gameManager : MonoBehaviour
         yield return new WaitForSeconds(buyPhaseTimer);
 
         currentWave++;
-        CalclulateWaveAmount();
+        CalculateWaveAmount();
         CalculateMoneyAmount();
         //Update the player interface
         playerInterface.UpdatePlayerInterface();
@@ -242,12 +273,20 @@ public class gameManager : MonoBehaviour
     IEnumerator SpawnEnemy()
     {
         canSpawn = false;
-
+        List<enemySpawner> inRangeSpawners = new List<enemySpawner>();
+        foreach (enemySpawner s in enemySpawners)
+        {
+            if (s.InRange())
+                inRangeSpawners.Add(s);
+        }
+        
         if(enemyCount < enemyMaxSpawn && enemyRemaining > enemyCount)
         {
             enemyCount++;
-            int rand = Random.Range(0, enemySpawners.Length);
-            enemySpawners[rand].SpawnEnemy();
+            int randSpawner = Random.Range(0, inRangeSpawners.Count);
+            int randEnemy = Random.Range(0, enemySpawnMap.Count);
+            inRangeSpawners[randSpawner].SpawnEnemy(enemies[enemySpawnMap[randEnemy]]);
+            enemySpawnMap.RemoveAt(randEnemy);
         }
 
         yield return new WaitForSeconds(enemySpawnTimer);

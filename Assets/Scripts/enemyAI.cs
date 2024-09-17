@@ -43,7 +43,6 @@ public class enemyAI : MonoBehaviour, IDamage
 
     Vector3 playerDir;
     
-
     // Start is called before the first frame update
     void Start()
     {
@@ -104,6 +103,11 @@ public class enemyAI : MonoBehaviour, IDamage
         }
     }
 
+    void FaceTarget()
+    {
+        Quaternion rot = Quaternion.LookRotation(playerDir);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
+    }
 
     public void TakeDamage(float amount, bool headshot = false)
     {
@@ -113,7 +117,6 @@ public class enemyAI : MonoBehaviour, IDamage
         HP -= amount;
 
         UpdateHealthText();
-        //StartCoroutine(DamageTakenFlash());
         PlayHitMarkerSound();
 
         if (headshot && !isDead)
@@ -132,13 +135,6 @@ public class enemyAI : MonoBehaviour, IDamage
         TakeDamage(amount, headshot);
         particle.transform.SetPositionAndRotation(loc, rot);
         particle.Play();
-    }
-
-    IEnumerator DamageTakenFlash()
-    {
-        model.material.color = Color.red;
-        yield return new WaitForSeconds(0.05f);
-        model.material.color = colorOrig;
     }
 
     void PlayHitMarkerSound()
@@ -167,12 +163,6 @@ public class enemyAI : MonoBehaviour, IDamage
     void AfterDeath()
     {
         Destroy(gameObject, 0.5f);
-    }
-
-    void FaceTarget()
-    {
-        Quaternion rot = Quaternion.LookRotation(playerDir);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
     }
 
     IEnumerator DoAttack()

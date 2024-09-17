@@ -93,6 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8466399925427722696}
   - component: {fileID: 6136271265113097105}
+  - component: {fileID: 5511132909455087488}
   m_Layer: 0
   m_Name: enemySpawner
   m_TagString: Spawners
@@ -128,5 +129,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b2f9b9bb73fdfd419810a18827a7c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies: {fileID: 7291488143580912723, guid: 5238087aa5a07834ea052afc4c1bf31a, type: 3}
   spawnLocation: {fileID: 8466399925427722696}
+--- !u!135 &5511132909455087488
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4512411193584366612}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 30
+  m_Center: {x: 0, y: 0, z: 0}
