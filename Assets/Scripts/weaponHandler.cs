@@ -70,10 +70,8 @@ public class weaponHandler : MonoBehaviour
 
             if (dmg != null)
             {
-                if(hit.collider.CompareTag("Head"))
-                    dmg.TakeDamage(damage * 2, hit.point + hit.normal * 0.001f, Quaternion.FromToRotation(Vector3.forward, hit.normal), true);
-                else
-                    dmg.TakeDamage(damage, hit.point + hit.normal * 0.001f, Quaternion.FromToRotation(Vector3.forward, hit.normal));
+                bool _headShot = hit.collider.CompareTag("Head");
+                dmg.TakeDamage(damage, hit.point + hit.normal * 0.001f, Quaternion.FromToRotation(Vector3.forward, hit.normal), _headShot);
             }
             else
             {

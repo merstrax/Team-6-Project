@@ -26,6 +26,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
     [Header("Enemy Combat")]
     [SerializeField] float HP;
+    [SerializeField] float headShotMultiplier;
     [SerializeField] Transform shootPos;
     [SerializeField] GameObject rightHandPos;
     [SerializeField] GameObject leftHandPos;
@@ -106,6 +107,9 @@ public class enemyAI : MonoBehaviour, IDamage
 
     public void TakeDamage(float amount, bool headshot = false)
     {
+        if (headshot)
+            amount *= headShotMultiplier;
+
         HP -= amount;
 
         UpdateHealthText();

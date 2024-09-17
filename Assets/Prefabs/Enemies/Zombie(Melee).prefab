@@ -2350,6 +2350,7 @@ MonoBehaviour:
   audioHitMarker: {fileID: 8300000, guid: e3e03447492ddb6408757f93a6eb9843, type: 3}
   audioHeadShot: {fileID: 8300000, guid: 1c3e0f54ff809e44d96c8c99d997bfb3, type: 3}
   HP: 100
+  headShotMultiplier: 2
   shootPos: {fileID: 0}
   rightHandPos: {fileID: 9071904910540355043}
   leftHandPos: {fileID: 312804464552006539}

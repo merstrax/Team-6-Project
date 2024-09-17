@@ -78,7 +78,7 @@ public class gameManager : MonoBehaviour
         enemySpawners = GameObject.FindObjectsByType<enemySpawner>(FindObjectsSortMode.None);
         if (enemySpawners.Length == 0) canSpawn = false;
 
-        menuSettings.SetActive(true);
+        menuSettings.SetActive(true);//Activate settings menu to load settings, it auto closes on first open
     }
 
     // Update is called once per frame
