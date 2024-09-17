@@ -79,9 +79,15 @@ public class cameraController : MonoBehaviour
         transform.parent.Rotate(Vector3.up * mouseX); 
     }
 
-    public void ChangeSensitivity(int sense)
+    public void ChangeSensitivity(float normal, float ads)
     {
-        senseNormal = sense;
-        senseADS = sense;
+        senseNormal = normal;
+        senseADS = ads;
+    }
+
+    public float GetSensitivity(bool ads = false)
+    {
+        if (ads) return senseADS;
+        return senseNormal;
     }
 }

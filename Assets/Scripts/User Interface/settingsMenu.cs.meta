@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: f44bc16972a91614c83c2fee1eca64c4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - volumeMaster: {instanceID: 0}
+  - volumeEffects: {instanceID: 0}
+  - volumeBackground: {instanceID: 0}
+  - volumeMixer: {fileID: 24100000, guid: ceb1389fcdf674d4bb56e978beb21b42, type: 2}
+  - mouseNormal: {instanceID: 0}
+  - mouseADS: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

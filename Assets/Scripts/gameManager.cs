@@ -12,7 +12,7 @@ public class gameManager : MonoBehaviour
     [Header("User Interface")]
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuShop;
-    [SerializeField] GameObject menuWin;
+    [SerializeField] GameObject menuSettings;
     [SerializeField] GameObject menuLose;
     [SerializeField] playerInterface playerInterface;
     public Image playerHPBar;
@@ -77,6 +77,8 @@ public class gameManager : MonoBehaviour
 
         enemySpawners = GameObject.FindObjectsByType<enemySpawner>(FindObjectsSortMode.None);
         if (enemySpawners.Length == 0) canSpawn = false;
+
+        menuSettings.SetActive(true);
     }
 
     // Update is called once per frame
@@ -90,6 +92,9 @@ public class gameManager : MonoBehaviour
                 StatePause();
                 menuActive = menuPause;
                 menuActive.SetActive(isPaused);
+            }else if(menuActive == menuSettings)
+            {
+                ToggleSettings();
             }
             else if (menuActive == menuPause || menuActive == menuShop)
             {
@@ -163,6 +168,23 @@ public class gameManager : MonoBehaviour
         StatePause();
         menuActive = menuLose;
         menuActive.SetActive(true);
+    }
+
+    public void ToggleSettings()
+    {
+        StatePause();
+        menuActive.SetActive(false);
+
+        if (menuActive == menuSettings)
+        {
+            menuActive = menuPause;
+            menuActive.SetActive(true);
+        }
+        else
+        {
+            menuActive = menuSettings;
+            menuActive.SetActive(true);
+        }
     }
 
     public bool CanBuy()

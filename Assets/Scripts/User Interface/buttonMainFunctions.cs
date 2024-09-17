@@ -8,7 +8,15 @@ using UnityEngine.UI;
 
 public class buttonMainFunctions : MonoBehaviour
 {
-    [SerializeField] TMP_InputField senseField;
+    public void settings()
+    {
+        gameManager.instance.ToggleSettings();
+    }
+
+    public void mainMenuSettings(GameObject menuSettings)
+    {
+        menuSettings.SetActive(!menuSettings.activeSelf);
+    }
 
     public void resume()
     {
@@ -34,10 +42,4 @@ public class buttonMainFunctions : MonoBehaviour
     {
         SceneManager.LoadScene("Game Scene");
     }
-
-    public void changeSensitivity()
-    {
-        Camera.main.GetComponent<cameraController>().ChangeSensitivity(int.Parse(senseField.text));
-    }
-
 }
