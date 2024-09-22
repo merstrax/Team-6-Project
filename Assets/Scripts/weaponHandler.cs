@@ -151,6 +151,14 @@ public class weaponHandler : MonoBehaviour
         isEmptyMagazineSound = false;
     }
 
+    public int GetCurrentAmmo() { return ammoCurrent; }
+
+    public void SetAmmoToMax()
+    {
+        ammoCurrent = ammoMax;
+        UpdateUI(); 
+    }
+
     public void UpdateUI()
     {
         gameManager.instance.GetPlayerInterface().UpdatePlayerAmmo(magazineCurrent.ToString(), ammoCurrent.ToString());

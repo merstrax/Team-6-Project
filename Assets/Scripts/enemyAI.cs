@@ -147,7 +147,12 @@ public class enemyAI : MonoBehaviour, IDamage
 
     void OnDeath()
     {
-        gameManager.instance.UpdateGameGoal();
+        // get the position of the enemy
+        Vector3 enemyPosition = transform.position;
+
+        // notify the gameManager about the enemy's death and pass its position
+        gameManager.instance.UpdateGameGoal(enemyPosition); 
+
         animator.Play("Z_FallingBack");
         isDead = true;
         agent.isStopped = true;

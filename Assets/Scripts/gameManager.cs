@@ -155,7 +155,7 @@ public class gameManager : MonoBehaviour
     }
 
     // pops up the win menu if all of the enemies are dead
-    public void UpdateGameGoal()
+    public void UpdateGameGoal(Vector3 enemyPosition) 
     {
         enemyCount--;
         enemyRemaining--;
@@ -165,6 +165,9 @@ public class gameManager : MonoBehaviour
         //Only need to update the player interface whenever something changes
         //no need to do every frame
         playerInterface.UpdatePlayerInterface();
+
+        //Check for ammo drop chance
+        TryDropAmmo(enemyPosition); 
 
         if (enemyRemaining <= 0)
         {
@@ -255,6 +258,34 @@ public class gameManager : MonoBehaviour
         float _enemyValue = enemyMoneyBase * _waveMultiplier;
 
         enemyValue = (int)_enemyValue;
+    }
+
+    [Header("Ammo Pickup Settings")]
+    public GameObject ammoPickUpPrefab;
+    public float ammoPickUpSpawnRadius = 2.0f; 
+
+    void TryDropAmmo(Vector3 enemyPosition)
+    {
+        float dropChance = 0f; 
+
+        if(enemyKilled >= 40)
+        {
+            dropChance = 10f; 
+        } else if(enemyKilled >= 30)
+        {
+            dropChance = 8f; 
+        } else if (enemyKilled >= 20)
+        {
+            dropChance = 5f; 
+        }
+
+        float randomValue = Random.Range(0f, 100f);  
+
+        if(randomValue < dropChance)
+        {
+            Vector3 spawnPosition = enemyPosition + Random.insideUnitSphere * ammoPickUpSpawnRadius;  
+            Instantiate(ammoPickUpPrefab, spawnPosition, Quaternion.identity); 
+        }
     }
 
     //Phase change handler
