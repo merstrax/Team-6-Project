@@ -119,16 +119,45 @@ public class weaponHandler : MonoBehaviour
         audioSystem.clip = audioReload;
         audioSystem.loop = true;
         audioSystem.Play();
-        
-        yield return new WaitForSeconds(reloadRate);
 
+        float elapsedTime = 0f; 
+
+        while (elapsedTime < reloadRate)
+        {
+            // If the game is paused, pause the audio and wait
+            if (gameManager.instance.isPaused)
+            {
+                if (audioSystem.isPlaying)
+                {
+                    // Pause the reload sound
+                    audioSystem.Pause();
+                }
+            }
+            else
+            {
+                // If the game is not paused, resume the audio and progress reloading
+                if (!audioSystem.isPlaying)
+                {
+                    // Resume reload sound
+                    audioSystem.UnPause();
+                }
+
+                // Progress reloading when not paused
+                elapsedTime += Time.deltaTime; 
+            }
+
+            // wait until next frame
+            yield return null; 
+        }
+
+        // Stop reload sound and switch back to the shot sound 
         audioSystem.Stop();
         audioSystem.clip = audioShot;
         audioSystem.loop = false;
-        
         isReloading = false;
 
-        if ((magazineSize - magazineCurrent) <= ammoCurrent) 
+        // Update ammo counts 
+        if ((magazineSize - magazineCurrent) <= ammoCurrent)
         {
             ammoCurrent -= (magazineSize - magazineCurrent);
             magazineCurrent = magazineSize;
@@ -139,7 +168,29 @@ public class weaponHandler : MonoBehaviour
             ammoCurrent = 0;
         }
 
+        // Update UI to reflect new ammo count 
         UpdateUI();
+
+        //yield return new WaitForSeconds(reloadRate);
+
+        //audioSystem.Stop();
+        //audioSystem.clip = audioShot;
+        //audioSystem.loop = false;
+
+        //isReloading = false;
+
+        //if ((magazineSize - magazineCurrent) <= ammoCurrent) 
+        //{
+        //    ammoCurrent -= (magazineSize - magazineCurrent);
+        //    magazineCurrent = magazineSize;
+        //}
+        //else
+        //{
+        //    magazineCurrent += ammoCurrent;
+        //    ammoCurrent = 0;
+        //}
+
+        //UpdateUI();
     }
 
     IEnumerator EmptyMagazine()
