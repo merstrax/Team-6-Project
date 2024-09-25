@@ -4872,6 +4872,18 @@ PrefabInstance:
       propertyPath: regenDelay
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 2326027025371513241, guid: c52c73c5f8b6e44439af75d746e624d2, type: 3}
+      propertyPath: audioJumpVolume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2326027025371513241, guid: c52c73c5f8b6e44439af75d746e624d2, type: 3}
+      propertyPath: audioWalkVolume
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2326027025371513241, guid: c52c73c5f8b6e44439af75d746e624d2, type: 3}
+      propertyPath: audioDamageVolume
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3080550084014826644, guid: c52c73c5f8b6e44439af75d746e624d2, type: 3}
       propertyPath: m_Name
       value: Player

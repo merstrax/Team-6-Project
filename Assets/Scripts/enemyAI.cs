@@ -22,7 +22,9 @@ public class enemyAI : MonoBehaviour, IDamage
     [Header("Audio")]
     [SerializeField] AudioSource audioPlayer;
     [SerializeField] AudioClip audioHitMarker;
+    [Range(0, 1)][SerializeField] float audioHitMarkerVolume;
     [SerializeField] AudioClip audioHeadShot;
+    [Range(0, 1)][SerializeField] float audioHeadShotVolume;
 
     [Header("Enemy Combat")]
     [Range(1, 300)][SerializeField] float HP;
@@ -121,7 +123,7 @@ public class enemyAI : MonoBehaviour, IDamage
 
         if (headshot && !isDead)
         {
-            audioPlayer.PlayOneShot(audioHeadShot);
+            audioPlayer.PlayOneShot(audioHeadShot, audioHeadShotVolume);
         }
 
         if (HP <= 0 && !isDead)
@@ -141,7 +143,7 @@ public class enemyAI : MonoBehaviour, IDamage
     {
         if (audioPlayer != null && audioHitMarker != null)
         {
-            audioPlayer.PlayOneShot(audioHitMarker);
+            audioPlayer.PlayOneShot(audioHitMarker, audioHitMarkerVolume);
         }
     }
 

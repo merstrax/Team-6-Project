@@ -2350,7 +2350,9 @@ MonoBehaviour:
   faceTargetSpeed: 15
   audioPlayer: {fileID: 8254101265250900317}
   audioHitMarker: {fileID: 8300000, guid: e3e03447492ddb6408757f93a6eb9843, type: 3}
+  audioHitMarkerVolume: 0.5
   audioHeadShot: {fileID: 8300000, guid: 1c3e0f54ff809e44d96c8c99d997bfb3, type: 3}
+  audioHeadShotVolume: 0.5
   HP: 200
   headShotMultiplier: 3
   shootPos: {fileID: 7994856841001032110}

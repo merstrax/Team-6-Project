@@ -16,6 +16,7 @@ public class weaponHandler : MonoBehaviour
     [SerializeField] AudioSource audioSystem;
     [SerializeField] AudioClip audioReload;
     [SerializeField] AudioClip audioEmpty;
+    [Range(0, 1)][SerializeField] float audioEmptyVolume;
 
     [Header("Weapon Stats")]
     [Range(30, 1000)][SerializeField] int damage;
@@ -196,7 +197,7 @@ public class weaponHandler : MonoBehaviour
     IEnumerator EmptyMagazine()
     {
         isEmptyMagazineSound = true;
-        audioSystem.PlayOneShot(audioEmpty);
+        audioSystem.PlayOneShot(audioEmpty, audioEmptyVolume);
         yield return new WaitForSeconds(audioEmpty.length);
 
         isEmptyMagazineSound = false;

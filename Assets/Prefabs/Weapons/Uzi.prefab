@@ -143,6 +143,7 @@ MonoBehaviour:
   audioSystem: {fileID: 3444647519516263002}
   audioReload: {fileID: 8300000, guid: f84c03538ec10a64488b5186293df642, type: 3}
   audioEmpty: {fileID: 8300000, guid: 9d280e14fb17e8c43af9b5d87a41288a, type: 3}
+  audioEmptyVolume: 0.5
   damage: 45
   fireRate: 0.05
   reloadRate: 1

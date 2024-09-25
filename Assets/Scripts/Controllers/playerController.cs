@@ -36,8 +36,11 @@ public class PlayerController : MonoBehaviour, IDamage
     [Header("Player Audio")]
     [SerializeField] AudioSource audioPlayer;
     [SerializeField] AudioClip[] audioDamage;
+    [Range(0, 1)][SerializeField] float audioDamageVolume;
     [SerializeField] AudioClip[] audioWalk;
+    [Range(0, 1)][SerializeField] float audioWalkVolume;
     [SerializeField] AudioClip[] audioJump;
+    [Range(0, 1)][SerializeField] float audioJumpVolume;
 
     Vector3 moveDir;
     Vector3 playerVel;
@@ -112,7 +115,7 @@ public class PlayerController : MonoBehaviour, IDamage
             jumpCount++;
             playerVel.y = jumpSpeed;
             int rand = Random.Range(0, audioJump.Length);
-            audioPlayer.PlayOneShot(audioJump[rand]);
+            audioPlayer.PlayOneShot(audioJump[rand], audioJumpVolume);
         }
 
         controller.Move(playerVel * Time.deltaTime);
@@ -143,7 +146,7 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         isWalkAudio = true;
         int rand = Random.Range(0, audioWalk.Length);
-        audioPlayer.PlayOneShot(audioWalk[rand], 0.5f);
+        audioPlayer.PlayOneShot(audioWalk[rand], audioWalkVolume);
 
         float audioDelay = 1.5f;
 
@@ -304,7 +307,7 @@ public class PlayerController : MonoBehaviour, IDamage
         StartCoroutine(DamageFlash());
 
         int rand = Random.Range(0, audioDamage.Length);
-        audioPlayer.PlayOneShot(audioDamage[rand], 0.5f);
+        audioPlayer.PlayOneShot(audioDamage[rand], audioDamageVolume);
 
         if (healthCurrent <= 0)
         {
