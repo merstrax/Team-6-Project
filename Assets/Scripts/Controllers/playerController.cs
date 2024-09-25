@@ -13,25 +13,25 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] LayerMask ignoreMask;
 
     [Header("Player Stats")]
-    [SerializeField] int healthMax;
-    [SerializeField] float regenDelay;
+    [Range(0, 20)][SerializeField] int healthMax;
+    [Range(0, 200)][SerializeField] float regenDelay;
 
 
     //Player Movement
     [Header("Player Movement")]
-    [SerializeField] float speed;
-    [SerializeField] float sprintMod;
-    [SerializeField] int jumpMax;
-    [SerializeField] int jumpSpeed;
-    [SerializeField] int gravity;
+    [Range(0, 10)][SerializeField] float speed;
+    [Range(0, 3)][SerializeField] float sprintMod;
+    [Range(0, 3)][SerializeField] int jumpMax;
+    [Range(0, 15)][SerializeField] int jumpSpeed;
+    [Range(0, 50)][SerializeField] int gravity;
 
     //Player Shoot
     [Header("Player Weapon")]
     [SerializeField] weaponHandler weaponEquipped;
     [SerializeField] weaponHandler weapon1;
     [SerializeField] weaponHandler weapon2;
-    [SerializeField] float shootRate;
-    [SerializeField] float shootDistance;
+    [Range(0, 1)][SerializeField] float shootRate;
+    [Range(0, 1000)][SerializeField] float shootDistance;
 
     [Header("Player Audio")]
     [SerializeField] AudioSource audioPlayer;
@@ -49,12 +49,13 @@ public class PlayerController : MonoBehaviour, IDamage
     int jumpCount;
 
     bool isSprinting;
-    public bool IsSprinting() {  return isSprinting; }
+    public bool IsSprinting() { return isSprinting; }
 
     bool isSwapWeapon;
     bool isShooting;
     public bool IsShooting() { return isShooting; }
-    public bool CanSwapWeapon() { 
+    public bool CanSwapWeapon()
+    {
         return !isShooting && !isSwapWeapon && !weaponEquipped.IsReloading() && weapon2 != null;
     }
 
@@ -66,7 +67,7 @@ public class PlayerController : MonoBehaviour, IDamage
     void Start()
     {
         game = gameManager.instance;
-        
+
         //Setup weapons
         weaponEquipped = weapon1;
         weaponEquipped.UpdateUI();
@@ -86,7 +87,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
         UpdateWeapon();
 
-        if(Time.time - lastHitTime > regenDelay && !isRegenerating)
+        if (Time.time - lastHitTime > regenDelay && !isRegenerating)
             StartCoroutine(HealthRegen());
     }
 
@@ -198,7 +199,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
     public void EquipWeapon(weaponHandler newWeapon, int slot)
     {
-        if(weapon2 == null)
+        if (weapon2 == null)
         {
             weapon2 = Instantiate(newWeapon);
             weapon2.gameObject.transform.SetParent(gunPos);
@@ -209,10 +210,10 @@ public class PlayerController : MonoBehaviour, IDamage
             return;
         }
 
-        switch(slot)
+        switch (slot)
         {
             case 1:
-                if(weaponEquipped == weapon1)
+                if (weaponEquipped == weapon1)
                 {
                     weaponEquipped = null;
                 }
@@ -222,7 +223,7 @@ public class PlayerController : MonoBehaviour, IDamage
                 weapon1.transform.localScale = newWeapon.transform.localScale;
                 weapon1.transform.localRotation = newWeapon.transform.localRotation;
                 weapon1.transform.localPosition = newWeapon.transform.localPosition;
-                if(weaponEquipped == null)
+                if (weaponEquipped == null)
                     weaponEquipped = weapon1;
                 break;
             case 2:
@@ -300,12 +301,12 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         healthCurrent -= (int)amount;
         game.GetPlayerInterface().UpdatePlayerHealth(healthCurrent, healthMax);
-        StartCoroutine(DamageFlash()); 
+        StartCoroutine(DamageFlash());
 
         int rand = Random.Range(0, audioDamage.Length);
         audioPlayer.PlayOneShot(audioDamage[rand], 0.5f);
 
-        if(healthCurrent <= 0)
+        if (healthCurrent <= 0)
         {
             gameManager.instance.YouLose();
         }
@@ -325,10 +326,10 @@ public class PlayerController : MonoBehaviour, IDamage
     IEnumerator HealthRegen()
     {
         isRegenerating = true;
-       
+
         // Gradual regeneration over time
         // Increase health gradually
-        healthCurrent = Mathf.Min(healthCurrent + 1, healthMax); 
+        healthCurrent = Mathf.Min(healthCurrent + 1, healthMax);
         game.GetPlayerInterface().UpdatePlayerHealth(healthCurrent, healthMax);
 
         // Adjust the wait time for regeneration speed
