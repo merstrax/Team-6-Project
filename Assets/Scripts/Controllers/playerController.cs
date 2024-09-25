@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] LayerMask ignoreMask;
 
     [Header("Player Stats")]
-    [Range(0, 20)][SerializeField] int healthMax;
+    [Range(1, 20)][SerializeField] int healthMax;
     [Range(0, 200)][SerializeField] float regenDelay;
 
 

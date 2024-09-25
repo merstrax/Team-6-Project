@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HealthPickup : MonoBehaviour
 {
-    [Range(0, 10)][SerializeField] int healthBoostAmount;
+    [Range(0, 30)][SerializeField] int healthBoostAmount;
 
     private bool isPickedUp = false;
 

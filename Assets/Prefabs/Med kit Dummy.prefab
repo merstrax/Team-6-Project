@@ -56,7 +56,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBoostAmount: 25
-  respawnTime: 10
 --- !u!23 &2558560487923257590
 MeshRenderer:
   m_ObjectHideFlags: 0

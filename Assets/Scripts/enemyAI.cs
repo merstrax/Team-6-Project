@@ -17,21 +17,21 @@ public class enemyAI : MonoBehaviour, IDamage
     [Header("AI Nav")]
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform headPos;
-    [SerializeField] int faceTargetSpeed;
+    [Range(0, 30)][SerializeField] int faceTargetSpeed;
 
     [Header("Audio")]
-    [SerializeField] AudioSource audioPlayer; 
+    [SerializeField] AudioSource audioPlayer;
     [SerializeField] AudioClip audioHitMarker;
     [SerializeField] AudioClip audioHeadShot;
 
     [Header("Enemy Combat")]
-    [SerializeField] float HP;
-    [SerializeField] float headShotMultiplier;
+    [Range(1, 300)][SerializeField] float HP;
+    [Range(0, 5)][SerializeField] float headShotMultiplier;
     [SerializeField] Transform shootPos;
     [SerializeField] GameObject rightHandPos;
     [SerializeField] GameObject leftHandPos;
     [SerializeField] GameObject bullet;
-    [SerializeField] float attackRate;
+    [Range(0, 3)][SerializeField] float attackRate;
 
     Color colorOrig;
 
@@ -42,7 +42,7 @@ public class enemyAI : MonoBehaviour, IDamage
     public bool canAttack = true;
 
     Vector3 playerDir;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,13 +72,13 @@ public class enemyAI : MonoBehaviour, IDamage
             else
             {
                 FaceTarget();
-                if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Z_Attack"))
+                if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Z_Attack"))
                     animator.Play("Z_Idle");
             }
 
             animator.SetBool("CanAttack", playerInRange);
             if (playerInRange)
-            { 
+            {
                 if (canAttack)
                 {
                     StartCoroutine(DoAttack());
@@ -151,7 +151,7 @@ public class enemyAI : MonoBehaviour, IDamage
         Vector3 enemyPosition = transform.position;
 
         // notify the gameManager about the enemy's death and pass its position
-        gameManager.instance.UpdateGameGoal(enemyPosition); 
+        gameManager.instance.UpdateGameGoal(enemyPosition);
 
         animator.Play("Z_FallingBack");
         isDead = true;
