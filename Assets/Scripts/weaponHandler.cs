@@ -7,7 +7,7 @@ public class weaponHandler : MonoBehaviour
 {
     [Header("Weapon Info")]
     [SerializeField] string weaponName;
-    [SerializeField] int weaponCost;
+    [Range(500, 5000)][SerializeField] int weaponCost;
 
     [Header("Weapon Components")]
     [SerializeField] Transform firePos;
@@ -18,16 +18,16 @@ public class weaponHandler : MonoBehaviour
     [SerializeField] AudioClip audioEmpty;
 
     [Header("Weapon Stats")]
-    [SerializeField] int damage;
-    [SerializeField] float fireRate = 0.1f;
-    [SerializeField] float reloadRate = 3.0f;
-    [SerializeField] int magazineSize = 35;
-    [SerializeField] int ammoMax;
+    [Range(30, 1000)][SerializeField] int damage;
+    [Range(0.05f, 1)][SerializeField] float fireRate = 0.1f;
+    [Range(0.5f, 3)][SerializeField] float reloadRate = 3.0f;
+    [Range(5, 100)][SerializeField] int magazineSize = 35;
+    [Range(50, 300)][SerializeField] int ammoMax;
     [SerializeField] bool isAutomatic = false;
     [SerializeField] bool canPenetrate = false;
 
     public string GetWeaponName() { return weaponName; }
-    public int GetWeaponCost() {  return weaponCost; }
+    public int GetWeaponCost() { return weaponCost; }
 
     public float GetFireRate() { return fireRate; }
     public int GetCurrentMagazine() { return magazineCurrent; }
@@ -52,11 +52,11 @@ public class weaponHandler : MonoBehaviour
 
     public void Fire()
     {
-        if (isReloading || gameManager.instance.isPaused){ return; }
+        if (isReloading || gameManager.instance.isPaused) { return; }
 
-        if(!HasAmmo())
+        if (!HasAmmo())
         {
-            if(!isEmptyMagazineSound)
+            if (!isEmptyMagazineSound)
                 StartCoroutine(EmptyMagazine());
             return;
         }
@@ -120,7 +120,7 @@ public class weaponHandler : MonoBehaviour
         audioSystem.loop = true;
         audioSystem.Play();
 
-        float elapsedTime = 0f; 
+        float elapsedTime = 0f;
 
         while (elapsedTime < reloadRate)
         {
@@ -143,11 +143,11 @@ public class weaponHandler : MonoBehaviour
                 }
 
                 // Progress reloading when not paused
-                elapsedTime += Time.deltaTime; 
+                elapsedTime += Time.deltaTime;
             }
 
             // wait until next frame
-            yield return null; 
+            yield return null;
         }
 
         // Stop reload sound and switch back to the shot sound 
@@ -207,7 +207,7 @@ public class weaponHandler : MonoBehaviour
     public void SetAmmoToMax()
     {
         ammoCurrent = ammoMax;
-        UpdateUI(); 
+        UpdateUI();
     }
 
     public void UpdateUI()

@@ -30,19 +30,18 @@ public class gameManager : MonoBehaviour
 
     //Wave variables
     [Header("Wave Variables")]
-    [SerializeField, Tooltip("Max amount of enemies on the map at a time.")] int enemyMaxSpawn = 30; //Max amount of enemies on the map at a time.
-    [SerializeField] float enemySpawnTimer = 3.0f;
-    [SerializeField] float enemyBaseSpawnCount = 2.0f;
-    [SerializeField] float enemyWaveSpawnCurve = 0.2f;
-    [SerializeField] float enemyMoneyBase = 100.0f;
-    [SerializeField] float enemyMoneyCurve = 0.1f;
-
-    [SerializeField] float buyPhaseTimer = 30.0f; //Time in seconds
+    [Range(5, 40)][SerializeField, Tooltip("Max amount of enemies on the map at a time.")] int enemyMaxSpawn = 30; //Max amount of enemies on the map at a time.
+    [Range(0.5f, 5)][SerializeField] float enemySpawnTimer = 3.0f;
+    [Range(1, 20)][SerializeField] float enemyBaseSpawnCount = 2.0f;
+    [Range(0.1f, 1)][SerializeField] float enemyWaveSpawnCurve = 0.2f;
+    [Range(50, 200)][SerializeField] float enemyMoneyBase = 100.0f;
+    [Range(0.05f, 0.2f)][SerializeField] float enemyMoneyCurve = 0.1f;
+    [Range(3, 10)][SerializeField] float buyPhaseTimer = 30.0f; //Time in seconds
 
     [Header("Enemy Variables")]
     [SerializeField] GameObject[] enemies;
-    [SerializeField] float[] enemyWeight;
-    [SerializeField] int[] enemyMinWave;
+    [Range(1, 5)][SerializeField] float[] enemyWeight;
+    [Range(1, 5)][SerializeField] int[] enemyMinWave;
 
     [SerializeField] int currentWave = 1;
     public int GetCurrentWave() { return currentWave; }
@@ -67,7 +66,7 @@ public class gameManager : MonoBehaviour
     }
 
     //Game Phases
-    enum GamePhase{BUY, COMBAT};
+    enum GamePhase { BUY, COMBAT };
     GamePhase currentPhase = GamePhase.COMBAT;
 
     //Game State and default settings
@@ -103,7 +102,8 @@ public class gameManager : MonoBehaviour
                 StatePause();
                 menuActive = menuPause;
                 menuActive.SetActive(isPaused);
-            }else if(menuActive == menuSettings)
+            }
+            else if (menuActive == menuSettings)
             {
                 ToggleSettings();
             }
@@ -113,7 +113,7 @@ public class gameManager : MonoBehaviour
             }
         }
 
-        if(Input.GetButtonDown("Shop") && currentPhase == GamePhase.BUY)
+        if (Input.GetButtonDown("Shop") && currentPhase == GamePhase.BUY)
         {
             if (menuActive == null)
             {
@@ -121,7 +121,7 @@ public class gameManager : MonoBehaviour
                 menuActive = menuShop;
                 menuActive.SetActive(isPaused);
             }
-            else if(menuActive == menuShop)
+            else if (menuActive == menuShop)
             {
                 StateUnpause();
             }
@@ -133,7 +133,7 @@ public class gameManager : MonoBehaviour
             StartCoroutine(SpawnEnemy());
         }
     }
-    
+
     // stops time and shows the cursor
     public void StatePause()
     {
@@ -155,7 +155,7 @@ public class gameManager : MonoBehaviour
     }
 
     // pops up the win menu if all of the enemies are dead
-    public void UpdateGameGoal(Vector3 enemyPosition) 
+    public void UpdateGameGoal(Vector3 enemyPosition)
     {
         enemyCount--;
         enemyRemaining--;
@@ -167,7 +167,7 @@ public class gameManager : MonoBehaviour
         playerInterface.UpdatePlayerInterface();
 
         //Check for ammo drop chance
-        TryDropAmmo(enemyPosition); 
+        TryDropAmmo(enemyPosition);
 
         if (enemyRemaining <= 0)
         {
@@ -203,7 +203,7 @@ public class gameManager : MonoBehaviour
 
     public bool CanBuy()
     {
-        if(currentPhase == GamePhase.BUY)
+        if (currentPhase == GamePhase.BUY)
             return true;
         return false;
     }
@@ -211,7 +211,7 @@ public class gameManager : MonoBehaviour
     //Calculate how many enemies for current wave
     void CalculateWaveAmount()
     {
-        if(currentWave >= 75)
+        if (currentWave >= 75)
         {
             enemyRemaining = 350 + (currentWave - 75) * 10;
             return;
@@ -242,7 +242,7 @@ public class gameManager : MonoBehaviour
         {
             if (enemyMinWave[i] > currentWave) { continue; }
             amount = (enemyWeight[i] / totalWeight) * enemyRemaining;
-            for(int n = 0; n < amount; n++)
+            for (int n = 0; n < amount; n++)
             {
                 enemySpawnMap.Add(i);
             }
@@ -262,29 +262,31 @@ public class gameManager : MonoBehaviour
 
     [Header("Ammo Pickup Settings")]
     public GameObject ammoPickUpPrefab;
-    public float ammoPickUpSpawnRadius = 2.0f; 
+    public float ammoPickUpSpawnRadius = 2.0f;
 
     void TryDropAmmo(Vector3 enemyPosition)
     {
-        float dropChance = 0f; 
+        float dropChance = 0f;
 
-        if(enemyKilled >= 40)
+        if (enemyKilled >= 40)
         {
-            dropChance = 10f; 
-        } else if(enemyKilled >= 30)
+            dropChance = 10f;
+        }
+        else if (enemyKilled >= 30)
         {
-            dropChance = 8f; 
-        } else if (enemyKilled >= 20)
+            dropChance = 8f;
+        }
+        else if (enemyKilled >= 20)
         {
-            dropChance = 5f; 
+            dropChance = 5f;
         }
 
-        float randomValue = Random.Range(0f, 100f);  
+        float randomValue = Random.Range(0f, 100f);
 
-        if(randomValue < dropChance)
+        if (randomValue < dropChance)
         {
-            Vector3 spawnPosition = enemyPosition + Random.insideUnitSphere * ammoPickUpSpawnRadius;  
-            Instantiate(ammoPickUpPrefab, spawnPosition, Quaternion.identity); 
+            Vector3 spawnPosition = enemyPosition + Random.insideUnitSphere * ammoPickUpSpawnRadius;
+            Instantiate(ammoPickUpPrefab, spawnPosition, Quaternion.identity);
         }
     }
 
@@ -354,8 +356,8 @@ public class gameManager : MonoBehaviour
             if (s.InRange())
                 inRangeSpawners.Add(s);
         }
-        
-        if(enemyCount < enemyMaxSpawn && enemyRemaining > enemyCount)
+
+        if (enemyCount < enemyMaxSpawn && enemyRemaining > enemyCount)
         {
             enemyCount++;
             int randSpawner = Random.Range(0, inRangeSpawners.Count);

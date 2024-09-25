@@ -5,44 +5,44 @@ using UnityEngine;
 
 public class ResupplyAmmo : MonoBehaviour
 {
-    [SerializeField] int ammoCost;
-    [SerializeField] int ammoAmount;
+    [Range(0, 500)][SerializeField] int ammoCost;
+    [Range(10, 100)][SerializeField] int ammoAmount;
     [SerializeField] TextMeshProUGUI ammoPromptText;
 
     private void Start()
     {
         // initially hide the prompt text
-        ammoPromptText.gameObject.SetActive(false); 
+        ammoPromptText.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            ammoPromptText.gameObject.SetActive(true);  
+            ammoPromptText.gameObject.SetActive(true);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             // hides prompt
-            ammoPromptText.gameObject.SetActive(false); 
+            ammoPromptText.gameObject.SetActive(false);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            if(Input.GetButtonDown("Interact"))
+            if (Input.GetButtonDown("Interact"))
             {
-                PlayerController player = other.GetComponent<PlayerController>(); 
+                PlayerController player = other.GetComponent<PlayerController>();
 
-                if(player != null)
+                if (player != null)
                 {
-                    PurchaseAmmo(player); 
+                    PurchaseAmmo(player);
                 }
             }
         }
@@ -50,10 +50,10 @@ public class ResupplyAmmo : MonoBehaviour
 
     public void PurchaseAmmo(PlayerController player)
     {
-        if(gameManager.instance.GetPlayerMoney() >= ammoCost)
+        if (gameManager.instance.GetPlayerMoney() >= ammoCost)
         {
-            gameManager.instance.SpendMoney(ammoCost); 
-            
+            gameManager.instance.SpendMoney(ammoCost);
+
             weaponHandler weaponHandler = player.GetComponent<weaponHandler>();
             if (weaponHandler != null)
             {
