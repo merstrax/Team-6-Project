@@ -2,14 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemPickUp : MonoBehaviour
+public class AmmoPickUp : MonoBehaviour
 {
     // time before drop disappears 
     [SerializeField] float lifeSpan = 15f;
-
-    [SerializeField] bool isAmmo = false;
-    [SerializeField] bool isMedkit = false;
-    [SerializeField] int healthBoostAmount = 25;
 
     private void Start()
     {
@@ -22,30 +18,18 @@ public class ItemPickUp : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerController playerController = other.GetComponent<PlayerController>();
+            //Get the WeaponHandler component
+            weaponHandler weaponHandler = other.GetComponent<PlayerController>().GetWeapon(); 
 
-
-            if (playerController != null)
+            if (weaponHandler != null)
             {
+                // Set the player's current ammo to max ammo
+                weaponHandler.SetAmmoToMax();
 
-                if (isAmmo)
-                {
-                    //Get the WeaponHandler component
-                    weaponHandler weaponHandler = other.GetComponent<PlayerController>().GetWeapon();
-
-                    // Set the player's current ammo to max ammo
-                    weaponHandler.SetAmmoToMax();
-                }
+                //destroyed once picked up
+                Destroy(gameObject); 
             }
-            // Check if this is a health pickup
-            if (isMedkit)
-            {
-                // Heal the player
-                playerController.Heal(healthBoostAmount);
-            }
-            // Destory the item once its use
-            Destroy(gameObject);
-        }    
+        }
     }
 
     private IEnumerator DestroyAfterTime()
