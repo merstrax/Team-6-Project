@@ -4,25 +4,31 @@ using UnityEngine;
 
 public class HealthPickup : MonoBehaviour
 {
-    // Amount to heal the player when pick up
     [SerializeField] int healthBoostAmount;
+
+    private bool isPickedUp = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!isPickedUp && other.CompareTag("Player"))
         {
-            // Get the playerController component
             PlayerController playerController = other.GetComponent<PlayerController>();
-
             if (playerController != null)
             {
-                {
-                    // Heal the player
-                    playerController.Heal(healthBoostAmount);
-                }
-                // Destory the object
-                Destroy(gameObject);
+                playerController.Heal(healthBoostAmount);
+                isPickedUp = true;
+                gameObject.SetActive(false);
+
+                // Notify the gameManager to handle respawn
+                gameManager.instance.HandleHealthPickupRespawn(this);
             }
         }
+    }
+
+    // Reset the pickup's state
+    public void ResetPickup()
+    {
+        isPickedUp = false;
+        gameObject.SetActive(true);
     }
 }

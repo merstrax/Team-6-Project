@@ -288,6 +288,45 @@ public class gameManager : MonoBehaviour
         }
     }
 
+    [Header("Health Pickup Settings")]
+    public GameObject healthPickUpPreFab;
+    public Transform healthPickUpSpawnLocation;
+    public int wavesUntilHealthRespawn = 2;  // Number of waves until health pickup respawns
+
+    private bool healthPickUpAvailable = true;
+
+    void SpawnHealthPickUp()
+    {
+        if (healthPickUpAvailable && healthPickUpPreFab != null && healthPickUpSpawnLocation != null)
+        {
+            Instantiate(healthPickUpPreFab, healthPickUpSpawnLocation.position, healthPickUpSpawnLocation.rotation);
+            healthPickUpAvailable = false;
+        }
+    }
+    public bool RespawnHealthPickup()
+    {
+        // Logic to check if health pickup should respawn
+        return (currentWave % wavesUntilHealthRespawn == 0 && !healthPickUpAvailable);
+    }
+
+    // Handle health pickup respawn
+    public void HandleHealthPickupRespawn(HealthPickup healthPickup)
+    {
+        StartCoroutine(RespawnHealthPickupCoroutine(healthPickup));
+    }
+
+    private IEnumerator RespawnHealthPickupCoroutine(HealthPickup healthPickup)
+    {
+        float respawnTime = 10f;  // Adjust respawn time as necessary
+        yield return new WaitForSeconds(respawnTime);
+
+        if (RespawnHealthPickup())
+        {
+            healthPickup.ResetPickup();  // Reactivate the health pickup
+            healthPickUpAvailable = true;
+        }
+    }
+
     //Phase change handler
     IEnumerator NextWavePhase()
     {

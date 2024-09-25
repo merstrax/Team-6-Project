@@ -1434,6 +1434,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &486884730 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3821067300980632187, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+  m_PrefabInstance: {fileID: 3281723295107072836}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &486884735 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6061448366291820424, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+  m_PrefabInstance: {fileID: 3281723295107072836}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &501396975
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4785,6 +4795,71 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1001 &3281723295107072836
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3821067300980632187, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+      propertyPath: m_Name
+      value: Med kit Dummy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061448366291820424, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 22.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061448366291820424, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061448366291820424, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061448366291820424, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061448366291820424, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061448366291820424, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061448366291820424, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061448366291820424, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061448366291820424, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061448366291820424, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619366005851746787, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+      propertyPath: respawnTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619366005851746787, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
+      propertyPath: healthBoostAmount
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 038bcaa91909d1847a4954e9ded86b50, type: 3}
 --- !u!1001 &8048320249875258106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4793,6 +4868,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2326027025371513241, guid: c52c73c5f8b6e44439af75d746e624d2, type: 3}
+      propertyPath: regenDelay
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 3080550084014826644, guid: c52c73c5f8b6e44439af75d746e624d2, type: 3}
       propertyPath: m_Name
       value: Player
@@ -5004,9 +5083,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5185892321568050784, guid: 1afa57dbfd45b324d9bc75d7df6cec8d, type: 3}
     - target: {fileID: 7951523666416119533, guid: c9b7e799d94fd7f45b4938dfec92eec7, type: 3}
+      propertyPath: healthPickUpPreFab
+      value: 
+      objectReference: {fileID: 486884730}
+    - target: {fileID: 7951523666416119533, guid: c9b7e799d94fd7f45b4938dfec92eec7, type: 3}
       propertyPath: enemyBaseSpawnCount
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7951523666416119533, guid: c9b7e799d94fd7f45b4938dfec92eec7, type: 3}
+      propertyPath: wavesUntilHealthRespawn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7951523666416119533, guid: c9b7e799d94fd7f45b4938dfec92eec7, type: 3}
+      propertyPath: wavesUntilHealthRespwan
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7951523666416119533, guid: c9b7e799d94fd7f45b4938dfec92eec7, type: 3}
+      propertyPath: healthPickUpSpawnLocation
+      value: 
+      objectReference: {fileID: 486884735}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5044,3 +5139,4 @@ SceneRoots:
   - {fileID: 999204253}
   - {fileID: 562179685}
   - {fileID: 19117833}
+  - {fileID: 3281723295107072836}
