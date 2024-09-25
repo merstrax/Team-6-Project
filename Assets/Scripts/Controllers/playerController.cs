@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] int healthMax;
     [SerializeField] float regenDelay;
 
+
     //Player Movement
     [Header("Player Movement")]
     [SerializeField] float speed;
@@ -276,6 +277,19 @@ public class PlayerController : MonoBehaviour, IDamage
         weaponEquipped.UpdateUI();
         isSwapWeapon = false;
     }
+
+    public void Heal(int amount)
+    {
+        healthCurrent = Mathf.Min(healthCurrent + amount, healthMax);
+        game.GetPlayerInterface().UpdatePlayerHealth(healthCurrent, healthMax);
+
+        // If health is already maxed out, stop regen
+        if (healthCurrent == healthMax)
+        {
+            StopHealthRegen();
+        }
+    }
+
 
     public void TakeDamage(float amount, Vector3 loc, Quaternion rotation, bool headshot = false)
     {
