@@ -15,6 +15,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuSettings;
     [SerializeField] GameObject menuLose;
     [SerializeField] playerInterface playerInterface;
+    [SerializeField] 
     public Image playerHPBar;
 
     GameObject menuActive;
@@ -290,6 +291,16 @@ public class gameManager : MonoBehaviour
         }
     }
 
+    public void ShowInteractMessage()
+    {
+        playerInterface.ShowInteractMessage();
+    }
+
+    public void HideInteractMessage()
+    {
+        playerInterface.HideInteractMessage();
+    }
+
     [Header("Health Pickup Settings")]
     public GameObject healthPickUpPreFab;
     public Transform healthPickUpSpawnLocation;
@@ -341,6 +352,8 @@ public class gameManager : MonoBehaviour
     {
         currentPhase = GamePhase.BUY;
 
+        playerInterface.ShowShopMessage();
+
         yield return new WaitForSeconds(buyPhaseTimer);
 
         currentWave++;
@@ -354,6 +367,7 @@ public class gameManager : MonoBehaviour
         CalculateMoneyAmount();
         //Update the player interface
         playerInterface.UpdatePlayerInterface();
+        playerInterface.HideShopMessage();
         currentPhase = GamePhase.COMBAT;
         canSpawn = true;
         playerScript.PlayNewWaveSound();

@@ -12,6 +12,8 @@ public class playerInterface : MonoBehaviour
     [SerializeField] TextMeshProUGUI textMoney;
     [SerializeField] TextMeshProUGUI textAmmoCurrent;
     [SerializeField] TextMeshProUGUI textAmmoMax;
+    [SerializeField] TextMeshProUGUI textInteractMessage;
+    [SerializeField] TextMeshProUGUI textShopMessage;
     [SerializeField] Image playerHealthBar;
 
     const string WAVE_TEXT = "Wave: ";
@@ -40,5 +42,25 @@ public class playerInterface : MonoBehaviour
     public void UpdatePlayerHealth(int health, int maxHealth)
     {
         playerHealthBar.fillAmount = (float)health / maxHealth;
+    }
+
+    public void ShowInteractMessage()
+    {
+        textInteractMessage.gameObject.SetActive(true);
+    }
+
+    public void HideInteractMessage()
+    {
+        textInteractMessage.gameObject.SetActive(false);
+    }
+
+    public void ShowShopMessage()
+    {
+        textShopMessage.gameObject.SetActive(true);
+    }
+
+    public void HideShopMessage()
+    {
+        textShopMessage.gameObject.SetActive(false);
     }
 }

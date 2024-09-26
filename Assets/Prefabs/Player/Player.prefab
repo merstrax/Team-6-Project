@@ -306,7 +306,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 264
   healthMax: 10
-  regenDelay: 3
+  regenDelay: 100
   speed: 4
   sprintMod: 1.5
   jumpMax: 1
@@ -325,14 +325,17 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d4e64e2ff303a514298965f20aaa23f2, type: 3}
   - {fileID: 8300000, guid: 7dbe71f7d4b1f234dbd29f5143f67e54, type: 3}
   - {fileID: 8300000, guid: 9e221288aa880d242b1b64768ae48f01, type: 3}
+  audioDamageVolume: 0.5
   audioWalk:
   - {fileID: 8300000, guid: a554eeaef8a5b6f4b8a226043a429599, type: 3}
   - {fileID: 8300000, guid: f6093ed4c6f3ff047bf0ca905acb01bb, type: 3}
   - {fileID: 8300000, guid: 4a14355490a599c469863bed36988623, type: 3}
+  audioWalkVolume: 0.15
   audioJump:
   - {fileID: 8300000, guid: 650af560323ba7b46b2800e4aec10c02, type: 3}
   - {fileID: 8300000, guid: d7e79c9ca2de2c34587944d6d863287c, type: 3}
   - {fileID: 8300000, guid: 9a3891839a76c384ea83d9ed14af44ba, type: 3}
+  audioJumpVolume: 0.5
 --- !u!143 &4759681594807076026
 CharacterController:
   m_ObjectHideFlags: 0

@@ -7,23 +7,20 @@ public class ResupplyAmmo : MonoBehaviour
 {
     [Range(0, 500)][SerializeField] int ammoCost;
     [Range(10, 100)][SerializeField] int ammoAmount;
-    [SerializeField] TextMeshProUGUI ammoPromptText;
-    [SerializeField] GameObject resupplyMenuUI;
 
     private PlayerController currentPlayer; 
 
     private void Start()
     {
         // initially hide the prompt text
-        ammoPromptText.gameObject.SetActive(false);
-        resupplyMenuUI.SetActive(false); 
+        //ammoPromptText.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            ammoPromptText.gameObject.SetActive(true);
+            gameManager.instance.ShowInteractMessage();
             currentPlayer = other.GetComponent<PlayerController>(); 
         }
     }
@@ -33,8 +30,7 @@ public class ResupplyAmmo : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // hides prompt
-            ammoPromptText.gameObject.SetActive(false);
-            resupplyMenuUI.SetActive(false);
+            gameManager.instance.HideInteractMessage();
             currentPlayer = null; 
         }
     }
@@ -47,7 +43,7 @@ public class ResupplyAmmo : MonoBehaviour
             if (Input.GetButtonDown("Interact"))
             {
                 // Display the resupply menu when the player presses the interact button
-                ShowResupplyMenu();
+                PurchaseAmmo(currentPlayer);
             }
         }
     }
@@ -56,7 +52,7 @@ public class ResupplyAmmo : MonoBehaviour
         if (currentPlayer != null)
         {
             // Show the resupply menu UI
-            resupplyMenuUI.SetActive(true);
+            //resupplyMenuUI.SetActive(true);
 
             // Unlock and show the cursor
             Cursor.lockState = CursorLockMode.None; 
@@ -69,7 +65,7 @@ public class ResupplyAmmo : MonoBehaviour
    
     private void CloseResupplyMenu()
     {
-        resupplyMenuUI.SetActive(false);
+        //resupplyMenuUI.SetActive(false);
 
         // Lock and hide the cursor again
         Cursor.lockState = CursorLockMode.Locked; 
@@ -100,7 +96,8 @@ public class ResupplyAmmo : MonoBehaviour
             if (equippedHandler != null)
             {
                 // resupply ammo
-                equippedHandler.Resupply(ammoAmount); 
+                equippedHandler.Resupply(ammoAmount);
+                equippedHandler.UpdateUI();
             }
             else
             {
