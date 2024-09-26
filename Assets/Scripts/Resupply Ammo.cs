@@ -8,7 +8,7 @@ public class ResupplyAmmo : MonoBehaviour
     [Range(0, 500)][SerializeField] int ammoCost;
     [Range(10, 100)][SerializeField] int ammoAmount;
     [SerializeField] TextMeshProUGUI ammoPromptText;
-    [SerializeField] GameObject resupplyMenuUI; 
+    [SerializeField] GameObject resupplyMenuUI;
 
     private PlayerController currentPlayer; 
 
@@ -64,7 +64,7 @@ public class ResupplyAmmo : MonoBehaviour
     {
         resupplyMenuUI.SetActive(false);
     }
-    private void BuyAmmo()
+    public void BuyAmmo() 
     {
         if (currentPlayer != null)
         {

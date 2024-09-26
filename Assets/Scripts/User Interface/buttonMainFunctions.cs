@@ -53,4 +53,9 @@ public class buttonMainFunctions : MonoBehaviour
             gameManager.instance.SpendMoney(weapon.GetWeaponCost());
         }
     }
+
+    public void BuyAmmoFromResupply(ResupplyAmmo resupplyPoint)
+    {
+        resupplyPoint.BuyAmmo(); 
+    }
 }
