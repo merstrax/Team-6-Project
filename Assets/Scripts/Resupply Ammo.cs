@@ -58,7 +58,7 @@ public class ResupplyAmmo : MonoBehaviour
             if (equippedHandler != null)
             {
                 // resupply ammo
-                equippedHandler.Resupply(ammoCost);
+                equippedHandler.Resupply(ammoAmount); 
             }
             else
             {
