@@ -122,7 +122,7 @@ public class settingsMenuFunctions : MonoBehaviour
             QualitySettings.vSyncCount = 1;
         }    
         else
-        {
+        { 
             QualitySettings.vSyncCount = 0;
         }
     }
