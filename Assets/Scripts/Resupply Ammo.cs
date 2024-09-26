@@ -54,11 +54,11 @@ public class ResupplyAmmo : MonoBehaviour
         {
             gameManager.instance.SpendMoney(ammoCost);
 
-            weaponHandler weaponHandler = player.GetComponent<weaponHandler>();
-            if (weaponHandler != null)
+            weaponHandler equippedHandler = player.GetWeaponEquipped();  
+            if (equippedHandler != null)
             {
                 // resupply ammo
-                weaponHandler.Resupply(ammoCost);
+                equippedHandler.Resupply(ammoCost);
             }
             else
             {
