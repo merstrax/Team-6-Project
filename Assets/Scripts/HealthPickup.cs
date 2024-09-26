@@ -25,7 +25,7 @@ public class HealthPickup : MonoBehaviour
                 gameObject.SetActive(false);
 
                 // Notify the gameManager to handle respawn
-                gameManager.instance.HandleHealthPickupRespawn(this);
+                gameManager.instance.HandleHealthPickupRespawn(this); 
             }
         }
     }
