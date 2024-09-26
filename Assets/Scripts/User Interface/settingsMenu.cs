@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class settingsMenuFunctions : MonoBehaviour
 {
+    public Toggle fullscreenTog, vsyncTog;
+
     [Header("Audio")]
     [SerializeField] Slider volumeMaster;
     [SerializeField] Slider volumeEffects;
@@ -44,6 +46,17 @@ public class settingsMenuFunctions : MonoBehaviour
         LoadSettings();
 
         gameObject.SetActive(false);
+
+        fullscreenTog.isOn = Screen.fullScreen;
+
+        if (QualitySettings.vSyncCount == 0)
+        {
+            vsyncTog.isOn = false;
+        }
+        else
+        {
+            vsyncTog.isOn = true;
+        }
     }
 
     void LoadSettings()
@@ -100,4 +113,18 @@ public class settingsMenuFunctions : MonoBehaviour
         if (_value.Length > 0)
             slider.value = float.Parse(_value);
     }
+    public void ApplyGraphics()
+    {
+        Screen.fullScreen = fullscreenTog.isOn;
+
+        if (vsyncTog.isOn)
+        {
+            QualitySettings.vSyncCount = 1;
+        }    
+        else
+        {
+            QualitySettings.vSyncCount = 0;
+        }
+    }
 }
+
