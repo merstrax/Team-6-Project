@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class HealthPickup : MonoBehaviour
 {
-    [Range(0, 30)][SerializeField] int healthBoostAmount;
+    [Range(0, 15)][SerializeField] int healthBoostAmount;
 
     private bool isPickedUp = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isPickedUp && other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             PlayerController playerController = other.GetComponent<PlayerController>();
+
+            // Ensure playerController is found
             if (playerController != null)
             {
+                // Heal the player by the health boost amount
                 playerController.Heal(healthBoostAmount);
+
+                // Mark as picked up and deactivate the pickup object
                 isPickedUp = true;
                 gameObject.SetActive(false);
 

@@ -305,10 +305,17 @@ public class gameManager : MonoBehaviour
             healthPickUpAvailable = false;
         }
     }
+
     public bool RespawnHealthPickup()
     {
-        // Logic to check if health pickup should respawn
-        return (currentWave % wavesUntilHealthRespawn == 0 && !healthPickUpAvailable);
+         // Logic to check if the health pickup should respawn based on the wave number
+         bool isMultipleOfWave = (currentWave % wavesUntilHealthRespawn == 0);
+
+
+         // Simplified logic: only check the wave condition
+         bool shouldRespawn = isMultipleOfWave;
+    
+    return shouldRespawn;
     }
 
     // Handle health pickup respawn
@@ -319,13 +326,13 @@ public class gameManager : MonoBehaviour
 
     private IEnumerator RespawnHealthPickupCoroutine(HealthPickup healthPickup)
     {
-        float respawnTime = 10f;  // Adjust respawn time as necessary
+        float respawnTime = 10f;  // Respawn time delay
         yield return new WaitForSeconds(respawnTime);
 
         if (RespawnHealthPickup())
         {
             healthPickup.ResetPickup();  // Reactivate the health pickup
-            healthPickUpAvailable = true;
+            healthPickUpAvailable = true;  // Set the pickup as available
         }
     }
 
@@ -337,6 +344,12 @@ public class gameManager : MonoBehaviour
         yield return new WaitForSeconds(buyPhaseTimer);
 
         currentWave++;
+
+        if (RespawnHealthPickup())
+        {
+            SpawnHealthPickUp(); // Ensure to call the method to spawn the pickup
+        }
+
         CalculateWaveAmount();
         CalculateMoneyAmount();
         //Update the player interface
