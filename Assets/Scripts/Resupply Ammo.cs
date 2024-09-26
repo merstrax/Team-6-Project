@@ -57,12 +57,26 @@ public class ResupplyAmmo : MonoBehaviour
         {
             // Show the resupply menu UI
             resupplyMenuUI.SetActive(true);
+
+            // Unlock and show the cursor
+            Cursor.lockState = CursorLockMode.None; 
+            Cursor.visible = true;
+
+            // Pause the game
+            Time.timeScale = 0f; 
         }
     }
    
     private void CloseResupplyMenu()
     {
         resupplyMenuUI.SetActive(false);
+
+        // Lock and hide the cursor again
+        Cursor.lockState = CursorLockMode.Locked; 
+        Cursor.visible = false;
+
+        // Resume the game
+        Time.timeScale = 1f; 
     }
     public void BuyAmmo() 
     {
