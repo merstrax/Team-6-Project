@@ -250,6 +250,11 @@ public class PlayerController : MonoBehaviour, IDamage
         }
     }
 
+    public weaponHandler GetWeaponEquipped() 
+    {
+        return weaponEquipped; 
+    }
+
     IEnumerator Shoot()
     {
         isShooting = true;
